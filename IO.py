@@ -38,18 +38,17 @@ def load_data_from_file(path):
         print("spectrograms loaded")
     return data
 
-
-
 def read_features_from_file(path):
     with open(path, newline='') as f:
         features = []
         reader = csv.reader(f, delimiter=",")
         for row in reader:
             features.append(row)
-    features = numpy.asarray(features, dtype="float32")
-    features *= 10000
-    print(numpy.min(features))
-    print(numpy.max(features))
+    #features = numpy.asarray(features, dtype="float32")
+    #features *= 10000
+    #print(numpy.min(features))
+    #print(numpy.max(features))
+    print(numpy.shape(features))
     return features
 
 def read_valence_arousal(plot):
@@ -72,11 +71,3 @@ def read_valence_arousal(plot):
 
     return features
 
-def get_features_from_files_in_path(path, features = ()):
-    from pydub import AudioSegment
-    import os
-    for (dirpath, dirnames, filenames) in os.walk(path):
-        for filename in filenames:
-            if str(filename).endswith(".wav"):
-                sound = AudioSegment.from_wav(path + filename)
-    #TODO

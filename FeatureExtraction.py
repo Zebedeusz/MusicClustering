@@ -108,10 +108,9 @@ def get_gmms_samples_from_path(pkl_filepath):
 
     samples = numpy.array(samples)
 
-
     samples = samples.reshape([samples.shape[0], samples.shape[2]])
 
     return samples
 
-
-
+def get_features_from_csv(filepath, omit_first_column):
+    pass

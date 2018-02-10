@@ -106,3 +106,59 @@ def cluster_dbscan(data, eps, min_samples):
             plt.plot(d[0],d[1],colour)
 
         plt.show()
+
+
+def cluster_som(data):
+    import matplotlib.pylab as plt
+    import pandas as pd
+    import numpy as np
+    import sompy
+
+    mapsize = [40, 40]
+    som = sompy.SOMFactory.build(data, mapsize, mask=None, mapshape='planar', lattice='rect', normalization='var',
+                                 initialization='pca', neighborhood='gaussian', training='batch',
+                                 name='sompy')
+    som.train(n_job=1, verbose='info')
+
+    v = sompy.mapview.View2DPacked(50, 50, title="")
+    v.show(som, what='codebook', which_dim=[0, 1], cmap=None, col_sz=6)
+
+    #som.component_names = ['1', '2']
+    v.show(som, what='codebook', which_dim='all', cmap='jet', col_sz=6)
+
+    # v = sompy.mapview.View2DPacked(2, 2)
+    # cl = som.cluster(n_clusters=4)
+    # getattr(som, 'cluster_labels')
+
+def cluster_hierarchical(data):
+    import numpy
+    from matplotlib import pyplot as plt
+    from scipy.cluster.hierarchy import dendrogram, linkage
+    from scipy.cluster.hierarchy import cophenet
+    from scipy.spatial.distance import pdist
+
+    numpy.random.seed(0)
+
+    Z = linkage(data, "ward")
+    c, coph_dists = cophenet(Z, pdist(data))
+
+    # dendrogram(
+    #     Z,
+    #     leaf_rotation=90.,  # rotates the x axis labels
+    #     leaf_font_size=8.,  # font size for the x axis labels
+    # )
+
+    dendrogram(
+        Z,
+        truncate_mode='lastp',  # show only the last p merged clusters
+        p=30,  # show only the last p merged clusters
+        show_leaf_counts=False,  # otherwise numbers in brackets are counts
+        leaf_rotation=90.,
+        leaf_font_size=12.,
+        show_contracted=True,  # to get a distribution impression in truncated branches
+    )
+
+    plt.show()
+
+
+
