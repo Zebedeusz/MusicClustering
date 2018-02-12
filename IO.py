@@ -38,7 +38,7 @@ def load_data_from_file(path):
         print("spectrograms loaded")
     return data
 
-def read_features_from_file(path):
+def read_features_from_file(path, omit_first_column = False):
     with open(path, newline='') as f:
         features = []
         reader = csv.reader(f, delimiter=",")
@@ -48,6 +48,10 @@ def read_features_from_file(path):
     #features *= 10000
     #print(numpy.min(features))
     #print(numpy.max(features))
+    if(omit_first_column):
+        for row in features:
+            del row[0]
+    features = numpy.asarray(features, dtype="float32")
     print(numpy.shape(features))
     return features
 
@@ -62,10 +66,9 @@ def read_valence_arousal(plot):
 
     if plot:
         import matplotlib.pyplot as plt
-
+        plt.plot(features[:,0], features[:,1], 'g.')
         plt.ylabel('arousal')
         plt.xlabel('valence')
-        plt.plot(features[:,0], features[:,1], 'g.')
         plt.savefig("/home/michal/PycharmProjects/AudioFeatureExtraction/charts/data_vis.png")
         plt.show()
 
