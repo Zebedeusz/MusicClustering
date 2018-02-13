@@ -67,7 +67,33 @@ def analyse_fps_variance(catalogue):
                 fps = read_features_from_file(catalogue + "/" + filename, True)
                 variance_distribution(fps, False, fps_data_path + "/" + str(filename ).replace(".csv", "") + "_variance_distribution_from_fp.png", "", 1)
 
+# provided catalogue to .csv files with fp features and name of a dataset e.g. Aljanaki
+# the function caclulates variance of fps for every file of provided dataset name in catalogue
+# and saves .png in data_statistics folder
+def analyse_fps_variance_for_specified_datasets(catalogue, dataset_name):
+    from Statistics import variance_distribution
+    from IO import read_features_from_file
+    import os
+
+    fps_data_path = provide_data_statistics_path(catalogue)
+
+    dataset_csv_fp_files = []
+
+    for (dirpath, dirnames, filenames) in os.walk(catalogue):
+        for filename in filenames:
+            if filename.__contains__(dataset_name):
+                dataset_csv_fp_files.append(filename)
+
+    fps = []
+    for csv_fp_filename in dataset_csv_fp_files:
+        if str(csv_fp_filename).__contains__(".csv"):
+            fps.extend(read_features_from_file(catalogue + "/" + csv_fp_filename, True))
+
+    variance_distribution(fps, False, fps_data_path + "/" + dataset_name + "_variance_distribution_from_fp.png", "", 1)
+
+
 if __name__ == '__main__':
-    analyse_mfcc_gmm_sampling_variance('/media/michal/HDD/Music Emotion Datasets/Decoded')
-    #analyse_multiple_mfcc_gmm_sampling_variance('/media/michal/HDD/Music Emotion Datasets/Decoded')
+    #analyse_mfcc_gmm_sampling_variance('/media/michal/HDD/Music Emotion Datasets/Decoded')
+    analyse_multiple_mfcc_gmm_sampling_variance('/media/michal/HDD/Music Emotion Datasets/Decoded')
     #analyse_fps_variance("/media/michal/HDD/Music Emotion Datasets/Decoded/Fluctuation Patterns")
+    #analyse_fps_variance_for_specified_datasets("/media/michal/HDD/Music Emotion Datasets/Decoded/Fluctuation Patterns", "ISMIR2012")
