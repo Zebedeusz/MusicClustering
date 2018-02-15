@@ -1,3 +1,9 @@
+from enum import Enum
+class Feature(Enum):
+    MFCC = "MFCC"
+    MFCC40 = "MFCC40"
+
+
 def read_and_save_features_from_files_in_path(path, features, csvSavePath):
     import os
 
@@ -31,16 +37,34 @@ def get_features_of_file(filepath, features):
     except FileNotFoundError:
         return extracted_features
 
-    if features is "mfcc":
-        from librosa.feature import mfcc
-        mfcc = mfcc(sound)
-        mfcc = numpy.reshape(mfcc, (mfcc.shape[1], mfcc.shape[0]))
-        extracted_features = mfcc
-    elif str(features).__contains__("mfcc") and str(features).replace("mfcc","").isdigit():
-        from librosa.feature import mfcc
-        mfcc = (mfcc(sound, n_mfcc=int(features.replace("mfcc",""))))
-        mfcc = numpy.reshape(mfcc, (mfcc.shape[1], mfcc.shape[0]))
-        extracted_features = mfcc
+    if not isinstance(features, list):
+        raise Exception("Unsupported data type as function parameter")
+
+    for feature in features:
+        if features is Feature.MFCC:
+            from librosa.feature import mfcc
+            mfcc = mfcc(sound)
+            mfcc = numpy.reshape(mfcc, (mfcc.shape[1], mfcc.shape[0]))
+            extracted_features.extend(mfcc)
+        #elif str(features).__contains__("mfcc") and str(features).replace("mfcc","").isdigit():
+        elif feature is Feature.MFCC40:
+            from librosa.feature import mfcc
+            #mfcc = (mfcc(sound, n_mfcc=int(features.replace("mfcc",""))))
+            mfcc = (mfcc(sound, n_mfcc=40))
+            mfcc = numpy.reshape(mfcc, (mfcc.shape[1], mfcc.shape[0]))
+            extracted_features.extend(mfcc)
+        #compressibility feature
+        #http://flac.sourceforge.net/
+        #https://stackoverflow.com/questions/23925494/how-to-convert-wav-to-flac-from-python
+
+        #median spectral band energy
+        #magnitude_spectrum = stft(wavedata, window_size) -- check result when divided into bands and not
+        #power_spectrum = np.abs(magnitude_spectrum[t])**2
+        #median(power_spectrum)
+
+        #spectral centre of mass
+        #from Features import spectral_centroid
+
 
     return extracted_features
 
