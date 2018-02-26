@@ -3,6 +3,17 @@ class Feature(Enum):
     MFCC = "MFCC"
     MFCC40 = "MFCC40"
 
+    COMPRESS_FEATURE = "COMPRESSIBILITY FEATURE"
+    MEDIAN_SPECTRAL_BAND_ENERGY = "MEDIAN SPECTRAL BAND ENERGY"
+    SPECTRAL_CENTROID = "SPECTRAL CENTROID"
+    
+    SPECTRAL_PATTERN = "SPECTRAL PATTERN"
+    DELTA_SPECTRAL_PATTERN = "DELTA SPECTRAL PATTERN"
+    VARIANCE_DELTA_SPECTRAL_PATTERN = "VARIANCE DELTA SPECTRAL PATTERN"
+    LOGARITHMIC_FLUCTUATION_PATTERN = "LOGARITHMIC FLUCTUATION PATTERN"
+    CORRELATION_PATTERN = "CORRELATION PATTERN"
+    SPECTRAL_CONTRAST_PATTERN = "SPECTRAL CONTRAST PATTERN"
+
 
 def read_and_save_features_from_files_in_path(path, features, csvSavePath):
     import os
@@ -53,18 +64,18 @@ def get_features_of_file(filepath, features):
             mfcc = (mfcc(sound, n_mfcc=40))
             mfcc = numpy.reshape(mfcc, (mfcc.shape[1], mfcc.shape[0]))
             extracted_features.extend(mfcc)
-        #compressibility feature
-        #http://flac.sourceforge.net/
-        #https://stackoverflow.com/questions/23925494/how-to-convert-wav-to-flac-from-python
-
-        #median spectral band energy
-        #magnitude_spectrum = stft(wavedata, window_size) -- check result when divided into bands and not
-        #power_spectrum = np.abs(magnitude_spectrum[t])**2
-        #median(power_spectrum)
-
-        #spectral centre of mass
-        #from Features import spectral_centroid
-
+        elif  feature is Feature.COMPRESS_FEATURE:
+            from Features import compressibility_feature
+            extracted_features.extend(compressibility_feature(filepath))
+        elif  feature is Feature.MEDIAN_SPECTRAL_BAND_ENERGY:
+            from Features import median_spectral_band_energy
+            extracted_features.extend(median_spectral_band_energy(sound, ))
+        elif feature is Feature.SPECTRAL_CENTROID:
+            from Features import spectral_centroid
+            extracted_features.extend(spectral_centroid(sound, ))
+        else:
+            #preprocess
+            pass
 
     return extracted_features
 

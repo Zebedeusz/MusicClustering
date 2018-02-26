@@ -27,3 +27,25 @@ def spectral_centroid(wavedata, window_size, sample_rate):
 
     return sc, np.asarray(timestamps)
 
+def median_spectral_band_energy(wavedata, window_size):
+    import numpy
+    from scipy.signal import stft
+
+    magnitude_spectrum = stft(wavedata, window_size)
+    timebins, freqbins = numpy.shape(magnitude_spectrum)
+
+    #check if it's pwr spectrum for time bands or freq bands, how many bands
+    power_spectrum = numpy.abs(magnitude_spectrum)**2
+
+    return numpy.median(power_spectrum)
+
+#compresses wav file to flac and returns size of the flac file as feature value
+def compressibility_feature(filepath_wav):
+    #wav -> flac converison
+    import audiotools
+    filepath_flac = filepath_wav.replace(".wav", ".flac")
+    audiotools.open(filepath_wav).convert(filepath_flac,
+                                          audiotools.FlacAudio, compression_quality)
+
+    #return size of flac file
+
