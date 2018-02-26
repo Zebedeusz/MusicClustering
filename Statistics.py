@@ -9,7 +9,7 @@ def variance_for_every_column(data_array):
     return variances
 
 def variance_distribution(data, plot = False, save_path = "", title="", markersize=3):
-    from FeatureExtraction import get_gmms_samples_from_path
+    from feature_extraction.helper import get_gmms_samples_from_path
     from pathlib import Path
 
     samples = []
@@ -37,7 +37,7 @@ def variance_distribution(data, plot = False, save_path = "", title="", markersi
         plt.close()
 
 def variance_distribution_of_variances_from_gmms(data_path, gmm_samples, plot_save_path):
-    from FeatureExtraction import get_gmms_samples_from_path
+    from feature_extraction.helper import get_gmms_samples_from_path
 
     variances = []
     for i in range(gmm_samples):

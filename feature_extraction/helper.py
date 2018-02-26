@@ -1,19 +1,3 @@
-from enum import Enum
-class Feature(Enum):
-    MFCC = "MFCC"
-    MFCC40 = "MFCC40"
-
-    COMPRESS_FEATURE = "COMPRESSIBILITY FEATURE"
-    MEDIAN_SPECTRAL_BAND_ENERGY = "MEDIAN SPECTRAL BAND ENERGY"
-    SPECTRAL_CENTROID = "SPECTRAL CENTROID"
-    
-    SPECTRAL_PATTERN = "SPECTRAL PATTERN"
-    DELTA_SPECTRAL_PATTERN = "DELTA SPECTRAL PATTERN"
-    VARIANCE_DELTA_SPECTRAL_PATTERN = "VARIANCE DELTA SPECTRAL PATTERN"
-    LOGARITHMIC_FLUCTUATION_PATTERN = "LOGARITHMIC FLUCTUATION PATTERN"
-    CORRELATION_PATTERN = "CORRELATION PATTERN"
-    SPECTRAL_CONTRAST_PATTERN = "SPECTRAL CONTRAST PATTERN"
-
 
 def read_and_save_features_from_files_in_path(path, features, csvSavePath):
     import os
@@ -38,8 +22,18 @@ def read_and_save_features_from_files_in_path(path, features, csvSavePath):
 
 
 def get_features_of_file(filepath, features):
+
+    def add_feature_to_list(feature):
+        import collections
+
+        if isinstance(feature, collections.Iterable):
+            extracted_features.extend(feature)
+        else:
+            extracted_features.append(feature)
+
+
     import scipy.io.wavfile as wav
-    import numpy
+    from feature_extraction.FeaturesProxy import get_feature
 
     extracted_features = []
 
@@ -52,30 +46,7 @@ def get_features_of_file(filepath, features):
         raise Exception("Unsupported data type as function parameter")
 
     for feature in features:
-        if features is Feature.MFCC:
-            from librosa.feature import mfcc
-            mfcc = mfcc(sound)
-            mfcc = numpy.reshape(mfcc, (mfcc.shape[1], mfcc.shape[0]))
-            extracted_features.extend(mfcc)
-        #elif str(features).__contains__("mfcc") and str(features).replace("mfcc","").isdigit():
-        elif feature is Feature.MFCC40:
-            from librosa.feature import mfcc
-            #mfcc = (mfcc(sound, n_mfcc=int(features.replace("mfcc",""))))
-            mfcc = (mfcc(sound, n_mfcc=40))
-            mfcc = numpy.reshape(mfcc, (mfcc.shape[1], mfcc.shape[0]))
-            extracted_features.extend(mfcc)
-        elif  feature is Feature.COMPRESS_FEATURE:
-            from Features import compressibility_feature
-            extracted_features.extend(compressibility_feature(filepath))
-        elif  feature is Feature.MEDIAN_SPECTRAL_BAND_ENERGY:
-            from Features import median_spectral_band_energy
-            extracted_features.extend(median_spectral_band_energy(sound, ))
-        elif feature is Feature.SPECTRAL_CENTROID:
-            from Features import spectral_centroid
-            extracted_features.extend(spectral_centroid(sound, ))
-        else:
-            #preprocess
-            pass
+        add_feature_to_list(get_feature(feature, sound))
 
     return extracted_features
 
@@ -146,6 +117,3 @@ def get_gmms_samples_from_path(pkl_filepath):
     samples = samples.reshape([samples.shape[0], samples.shape[2]])
 
     return samples
-
-def get_features_from_csv(filepath, omit_first_column):
-    pass

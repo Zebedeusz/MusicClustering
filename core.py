@@ -1,12 +1,3 @@
-import numpy
-from sklearn.mixture import GaussianMixture
-
-from FeatureExtraction import get_features_of_file
-from FeatureExtraction import read_and_save_features_from_files_in_path
-from FeatureExtraction import get_gmms_from_mfccs_of_filepath, save_gmms_from_mfccs_of_filepath, get_gmms_samples_from_path
-
-from Clustering import cluster_som, cluster_hierarchical
-
 filepath = "/media/michal/HDD/Music Emotion Datasets/Decoded/1000songs/2.wav"
 filepath2 = "/media/michal/HDD/Music Emotion Datasets/Decoded/1000songs"
 
@@ -29,7 +20,10 @@ eerola_fp = "/media/michal/HDD/Music Emotion Datasets/Decoded/Fluctuation Patter
 
 # cluster_som(samples)
 # cluster_hierarchical(samples)
-from Statistics import variance_distribution
-from IO import read_features_from_file
-fps = read_features_from_file(eerola_fp, True)
-variance_distribution(fps, True, eerola_data_stats_fp,"",1)
+# from Statistics import variance_distribution
+# from IO import read_features_from_file
+# fps = read_features_from_file(eerola_fp, True)
+# variance_distribution(fps, True, eerola_data_stats_fp,"",1)
+from feature_extraction.helper import get_features_of_file, Feature
+ee = get_features_of_file(filepath, [Feature.COMPRESS_FEATURE])
+print(ee)
