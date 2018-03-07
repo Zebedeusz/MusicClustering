@@ -24,6 +24,6 @@ eerola_fp = "/media/michal/HDD/Music Emotion Datasets/Decoded/Fluctuation Patter
 # from IO import read_features_from_file
 # fps = read_features_from_file(eerola_fp, True)
 # variance_distribution(fps, True, eerola_data_stats_fp,"",1)
-from feature_extraction.helper import get_features_of_file, Feature
-ee = get_features_of_file(filepath, [Feature.COMPRESS_FEATURE])
-print(ee)
+# from feature_extraction.helper import get_features_of_file, Features
+# ee = get_features_of_file(filepath, [Feature.COMPRESS_FEATURE])
+# print(ee)
