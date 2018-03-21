@@ -14,7 +14,6 @@ class Feature(Enum):
     CORRELATION_PATTERN = "CORRELATION PATTERN"
     SPECTRAL_CONTRAST_PATTERN = "SPECTRAL CONTRAST PATTERN"
 
-
 def get_feature(feature, sound, filepath):
 
     if not isinstance(feature, Feature):
@@ -58,8 +57,8 @@ def get_feature(feature, sound, filepath):
             pass
 
 
+# returns array of shape (f,t) e.g. (1025,1295)
 def preprocessToKeplerUniFeatures(sound):
-    from pydub import AudioSegment
     from scipy.signal import stft
     import numpy
 

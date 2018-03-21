@@ -14,6 +14,15 @@ eerola_pkl = "/media/michal/HDD/Music Emotion Datasets/Decoded/Eerola/gmm_pkl"
 eerola_data_stats_fp = "/media/michal/HDD/Music Emotion Datasets/Decoded/Eerola/data_statistics/variance_distribution_from_fp.png"
 eerola_data_stats_gmm = "/media/michal/HDD/Music Emotion Datasets/Decoded/Eerola/data_statistics/variance_distribution_of_variances_from_gmms.png"
 eerola_fp = "/media/michal/HDD/Music Emotion Datasets/Decoded/Fluctuation Patterns/Eerola.csv"
+
+test_file = "resources/test_file.wav"
+
+from feature_extraction.FeaturesProxy import Feature
+from feature_extraction.helper import get_features_of_file
+
+fs = get_features_of_file(test_file, [Feature.COMPRESS_FEATURE])
+print(fs)
+
 #read_and_save_features_from_files_in_path(filepath2, "mfcc", filepath2)
 
 #gmms = get_gmms_from_mfccs_of_filepath(filepath2)

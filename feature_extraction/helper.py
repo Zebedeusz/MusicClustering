@@ -46,7 +46,7 @@ def get_features_of_file(filepath, features):
         raise Exception("Unsupported data type as function parameter")
 
     for feature in features:
-        add_feature_to_list(get_feature(feature, sound))
+        add_feature_to_list(get_feature(feature, sound, filepath))
 
     return extracted_features
 
