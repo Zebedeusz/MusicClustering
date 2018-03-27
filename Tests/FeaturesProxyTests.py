@@ -14,13 +14,14 @@ class FeaturesProxyTests(unittest.TestCase):
     def test_spectral_base(self):
         import scipy.io.wavfile as wav
         from feature_extraction.FeaturesProxy import preprocessToKeplerUniFeatures
-        from feature_extraction.Features import spectral_pattern
+        from feature_extraction.Features import spectral_pattern_base
 
         f, sound = wav.read(self.test_file)
 
         soundP = preprocessToKeplerUniFeatures(sound)
-        # s = spectral_pattern_base(soundP, 3, 0,0,0,0)
-        spectral_pattern(soundP)
+        s = spectral_pattern_base(soundP, 3, 10, 5, True, 0)
+        # spectral_pattern(soundP)
+        print(s)
 
 
 

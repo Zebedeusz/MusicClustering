@@ -29,7 +29,6 @@ def spectral_pattern(wavedata_preprocessed):
     sorted_summed_sound_blocks_with_sorted_freq_bands = sorted(summed_sound_blocks_with_sorted_freq_bands)
     perc_index = math.ceil(0.9 * len(sorted_summed_sound_blocks_with_sorted_freq_bands))
     perc = sound_blocks_with_sorted_freq_bands[perc_index]
-    perc_x = numpy.percentile(sound_blocks_with_sorted_freq_bands, 90, axis=(1, 2))
 
     return perc
 
@@ -46,9 +45,10 @@ def spectral_pattern_base(wavedata_preprocessed,
     soundP = numpy.array(wavedata_preprocessed)
 
     if (delta):
-        soundToSub = soundP[3:]
-        for i in range(3):
+        soundToSub = soundP[delta:]
+        for i in range(delta):
             soundToSub = numpy.vstack((soundToSub, numpy.zeros_like(soundP[0])))
+        soundP = numpy.abs(soundP - soundToSub)
 
     sound_blocks_with_sorted_freq_bands = []
     for i in range(0, soundP[0].size, hop_size):
@@ -58,22 +58,61 @@ def spectral_pattern_base(wavedata_preprocessed,
             sorted_sound_block.append(sorted(freq_band))
         sound_blocks_with_sorted_freq_bands.append(sorted_sound_block)
 
-    summed_sound_blocks_with_sorted_freq_bands = []
-    for sound_block in sound_blocks_with_sorted_freq_bands:
-        summed_freq_bands = []
-        for freq_band in sound_block:
-            summed_freq_bands.append(numpy.sum(freq_band))
-        summed_sound_blocks_with_sorted_freq_bands.append(numpy.sum(summed_freq_bands))
-
     if (variance_summarization):
-        return 0
+        sound_blocks_with_sorted_freq_bands = numpy.array(sound_blocks_with_sorted_freq_bands)
+        variance_of_time_blocks = varianceblock(sound_blocks_with_sorted_freq_bands)
+        return variance_of_time_blocks
 
     if (percentile_summarization):
+        summed_sound_blocks_with_sorted_freq_bands = []
+        for sound_block in sound_blocks_with_sorted_freq_bands:
+            summed_freq_bands = []
+            for freq_band in sound_block:
+                summed_freq_bands.append(numpy.sum(freq_band))
+            summed_sound_blocks_with_sorted_freq_bands.append(numpy.sum(summed_freq_bands))
+
         sorted_summed_sound_blocks_with_sorted_freq_bands = sorted(summed_sound_blocks_with_sorted_freq_bands)
         perc_index = math.ceil(percentile_summarization * len(sorted_summed_sound_blocks_with_sorted_freq_bands))
         perc = sound_blocks_with_sorted_freq_bands[perc_index]
 
         return perc
+
+
+def varianceblock(data):
+    import numpy
+
+    mean_block = meanblock(data)
+    time_blocks = len(data)
+
+    variance_init = 0
+
+    for time_block_index in range(time_blocks):
+        time_block = numpy.array(data[time_block_index])
+        time_block = numpy.reshape(time_block, (mean_block.shape))
+        variance_init += numpy.power(time_block - mean_block, 2)
+
+    return variance_init / time_blocks
+
+
+def meanblock(data):
+    import numpy
+    time_blocks = len(data)
+
+    summed_block = numpy.zeros((len(data[0]), len(data[0][0])))
+    for time_block in range(time_blocks - 1):
+        summed_block = sum_two_arrays(summed_block, data[time_block])
+
+    mean_block = summed_block / time_blocks
+
+    return mean_block
+
+
+def sum_two_arrays(arr1, arr2):
+    for i in range(len(arr2)):
+        for j in range(len(arr2[0])):
+            arr1[i][j] = arr1[i][j] + arr2[i][j]
+
+    return arr1
 
 def median_spectral_band_energy(wavedata):
     import numpy
