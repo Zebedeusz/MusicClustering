@@ -50,13 +50,15 @@ def spectral_pattern_base(wavedata_preprocessed,
             soundToSub = numpy.vstack((soundToSub, numpy.zeros_like(soundP[0])))
         soundP = numpy.abs(soundP - soundToSub)
 
-    sound_blocks_with_sorted_freq_bands = []
-    for i in range(0, soundP[0].size, hop_size):
+    sound_blocks_with_sorted_freq_bands = numpy.zeros(shape=(soundP[1].size // hop_size + 1, len(soundP), block_size))
+    k = 0
+    for i in range(0, soundP[1].size, hop_size):
         sound_block = soundP[:, i:(i + block_size)]
-        sorted_sound_block = []
-        for freq_band in sound_block:
-            sorted_sound_block.append(sorted(freq_band))
-        sound_blocks_with_sorted_freq_bands.append(sorted_sound_block)
+        sorted_sound_block = numpy.zeros(shape=(len(soundP), block_size))
+        for j in range(len(sound_block)):
+            sorted_sound_block[j, 0:len(sound_block[j])] = sorted(sound_block[j])
+        sound_blocks_with_sorted_freq_bands[k] = sorted_sound_block
+        k += 1
 
     if (variance_summarization):
         sound_blocks_with_sorted_freq_bands = numpy.array(sound_blocks_with_sorted_freq_bands)
@@ -87,12 +89,16 @@ def varianceblock(data):
     variance_init = 0
 
     for time_block_index in range(time_blocks):
+        time_block = data[time_block_index]
+        # converting every time_block from ndarray with list of lists to ndarray with list of ndarrays
+        for i in range(len(time_block)):
+            time_block[i] = numpy.array(time_block[i])
         time_block = numpy.array(data[time_block_index])
-        time_block = numpy.reshape(time_block, (mean_block.shape))
+
+        time_block = numpy.reshape(time_block, mean_block.shape)
         variance_init += numpy.power(time_block - mean_block, 2)
 
     return variance_init / time_blocks
-
 
 def meanblock(data):
     import numpy
