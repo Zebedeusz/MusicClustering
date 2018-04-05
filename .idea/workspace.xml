@@ -4,6 +4,7 @@
     <list default="true" id="5e26b7d5-827f-41d2-a1b9-614574ed17c0" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/feature_extraction/Features.py" afterPath="$PROJECT_DIR$/feature_extraction/Features.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/feature_extraction/FeaturesProxy.py" afterPath="$PROJECT_DIR$/feature_extraction/FeaturesProxy.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,7 +16,7 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/MusicClustering$DatasetsPreparing.coverage" NAME="DatasetsPreparing Coverage Results" MODIFIED="1509369393185" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Miscellaneous" />
     <SUITE FILE_PATH="coverage/MusicClustering$core.coverage" NAME="core Coverage Results" MODIFIED="1521657866978" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/MusicClustering$FeaturesProxyTests.coverage" NAME="FeaturesProxyTests Coverage Results" MODIFIED="1522869739359" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Tests" />
+    <SUITE FILE_PATH="coverage/MusicClustering$FeaturesProxyTests.coverage" NAME="FeaturesProxyTests Coverage Results" MODIFIED="1522947442880" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Tests" />
     <SUITE FILE_PATH="coverage/MusicClustering$StatisticsGeneration.coverage" NAME="StatisticsGeneration Coverage Results" MODIFIED="1518544432647" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Miscellaneous" />
   </component>
   <component name="DatabaseView">
@@ -56,28 +57,28 @@
       <file leaf-file-name="Features.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/feature_extraction/Features.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="215">
-              <caret line="97" column="0" lean-forward="false" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="0" />
+            <state relative-caret-position="112">
+              <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FeaturesProxyTests.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="FeaturesProxyTests.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Tests/FeaturesProxyTests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="22" column="34" lean-forward="true" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
+            <state relative-caret-position="368">
+              <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FeaturesProxy.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="FeaturesProxy.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/feature_extraction/FeaturesProxy.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+            <state relative-caret-position="208">
+              <caret line="40" column="39" lean-forward="true" selection-start-line="40" selection-start-column="39" selection-end-line="40" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -124,10 +125,10 @@
         <option value="$PROJECT_DIR$/FeatureExtraction.py" />
         <option value="$PROJECT_DIR$/feature_extraction/FeatureExtraction.py" />
         <option value="$PROJECT_DIR$/feature_extraction/helper.py" />
-        <option value="$PROJECT_DIR$/feature_extraction/FeaturesProxy.py" />
         <option value="$PROJECT_DIR$/core.py" />
         <option value="$PROJECT_DIR$/Tests/FeaturesProxyTests.py" />
         <option value="$PROJECT_DIR$/feature_extraction/Features.py" />
+        <option value="$PROJECT_DIR$/feature_extraction/FeaturesProxy.py" />
       </list>
     </option>
   </component>
@@ -158,7 +159,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -229,6 +229,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -522,7 +523,14 @@
       <option name="project" value="LOCAL" />
       <updated>1522183011579</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Variance spectral patterns appears to work. Check-up needed.">
+      <created>1522869863950</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1522869863950</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView">
@@ -538,7 +546,7 @@
     <frame x="38" y="0" width="1329" height="769" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23968871" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24357976" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32973805" sideWeight="0.5030211" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3291829" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -548,7 +556,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32937685" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39614242" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39614242" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3291829" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -589,7 +597,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Started adding other spectral pattern features." />
-    <option name="LAST_COMMIT_MESSAGE" value="Started adding other spectral pattern features." />
+    <MESSAGE value="Variance spectral patterns appears to work. Check-up needed." />
+    <option name="LAST_COMMIT_MESSAGE" value="Variance spectral patterns appears to work. Check-up needed." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -602,11 +611,6 @@
           <line>23</line>
           <option name="timeStamp" value="165" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/feature_extraction/Features.py</url>
-          <line>62</line>
-          <option name="timeStamp" value="193" />
-        </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
@@ -615,7 +619,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="196" />
+      <option name="time" value="198" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -874,26 +878,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/feature_extraction/FeaturesProxy.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/numpy/core/fromnumeric.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="31">
           <caret line="126" column="4" lean-forward="false" selection-start-line="126" selection-start-column="4" selection-end-line="126" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/feature_extraction/helper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16">
-          <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -914,18 +902,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/feature_extraction/helper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16">
+          <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/feature_extraction/Features.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="97" column="0" lean-forward="false" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="0" />
+        <state relative-caret-position="112">
+          <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Tests/FeaturesProxyTests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="22" column="34" lean-forward="true" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
+        <state relative-caret-position="368">
+          <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/feature_extraction/FeaturesProxy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="40" column="39" lean-forward="true" selection-start-line="40" selection-start-column="39" selection-end-line="40" selection-end-column="39" />
           <folding />
         </state>
       </provider>

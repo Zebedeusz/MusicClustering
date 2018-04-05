@@ -44,11 +44,17 @@ def get_feature(feature, sound, filepath):
         sound = preprocessToKeplerUniFeatures(sound)
 
         if feature is Feature.SPECTRAL_PATTERN:
-            pass
+            from feature_extraction.Features import spectral_pattern
+            return spectral_pattern(sound)
+
         elif feature is Feature.DELTA_SPECTRAL_PATTERN:
-            pass
+            from feature_extraction.Features import delta_spectral_pattern
+            return delta_spectral_pattern(sound)
+
         elif feature is Feature.VARIANCE_DELTA_SPECTRAL_PATTERN:
-            pass
+            from feature_extraction.Features import variance_delta_spectral_pattern
+            return variance_delta_spectral_pattern(sound)
+
         elif feature is Feature.LOGARITHMIC_FLUCTUATION_PATTERN:
             pass
         elif feature is Feature.CORRELATION_PATTERN:

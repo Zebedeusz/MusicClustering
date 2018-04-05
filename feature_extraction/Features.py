@@ -1,36 +1,27 @@
+def variance_delta_spectral_pattern(wavedata_preprocessed):
+    return spectral_pattern_base(wavedata_preprocessed,
+                                 3,
+                                 25,
+                                 5,
+                                 True,
+                                 False)
+
 def delta_spectral_pattern(wavedata_preprocessed):
-    pass
+    return spectral_pattern_base(wavedata_preprocessed,
+                                 3,
+                                 25,
+                                 5,
+                                 False,
+                                 0.9)
 
 
 def spectral_pattern(wavedata_preprocessed):
-    import numpy
-    import math
-
-    soundP = numpy.array(wavedata_preprocessed)
-
-    block_size = 10
-    hop_size = 5
-
-    sound_blocks_with_sorted_freq_bands = []
-    for i in range(0, soundP[0].size, hop_size):
-        sound_block = soundP[:, i:(i + block_size)]
-        sorted_sound_block = []
-        for freq_band in sound_block:
-            sorted_sound_block.append(sorted(freq_band))
-        sound_blocks_with_sorted_freq_bands.append(sorted_sound_block)
-
-    summed_sound_blocks_with_sorted_freq_bands = []
-    for sound_block in sound_blocks_with_sorted_freq_bands:
-        summed_freq_bands = []
-        for freq_band in sound_block:
-            summed_freq_bands.append(numpy.sum(freq_band))
-        summed_sound_blocks_with_sorted_freq_bands.append(numpy.sum(summed_freq_bands))
-
-    sorted_summed_sound_blocks_with_sorted_freq_bands = sorted(summed_sound_blocks_with_sorted_freq_bands)
-    perc_index = math.ceil(0.9 * len(sorted_summed_sound_blocks_with_sorted_freq_bands))
-    perc = sound_blocks_with_sorted_freq_bands[perc_index]
-
-    return perc
+    return spectral_pattern_base(wavedata_preprocessed,
+                                 False,
+                                 10,
+                                 5,
+                                 False,
+                                 0.9)
 
 
 def spectral_pattern_base(wavedata_preprocessed,
@@ -89,14 +80,7 @@ def varianceblock(data):
     variance_init = 0
 
     for time_block_index in range(time_blocks):
-        time_block = data[time_block_index]
-        # converting every time_block from ndarray with list of lists to ndarray with list of ndarrays
-        for i in range(len(time_block)):
-            time_block[i] = numpy.array(time_block[i])
-        time_block = numpy.array(data[time_block_index])
-
-        time_block = numpy.reshape(time_block, mean_block.shape)
-        variance_init += numpy.power(time_block - mean_block, 2)
+        variance_init += numpy.power(data[time_block_index] - mean_block, 2)
 
     return variance_init / time_blocks
 
