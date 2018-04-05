@@ -1,3 +1,36 @@
+def correlation_pattern(wavedata_preprocessed):
+    import numpy
+
+    block_size = 256
+    hop_size = 128
+    freq_bands = 52
+
+    # reducing number of frequency bands
+    freq_band_size = len(wavedata_preprocessed) // freq_bands
+    wavedata_with_reduced_freq_bands = numpy.zeros(shape=(freq_bands, wavedata_preprocessed.shape[1]))
+
+    for freq_band_index in range(freq_bands - 1):
+        wavedata_with_reduced_freq_bands[freq_band_index] = \
+            numpy.sum(
+                wavedata_preprocessed[freq_band_index * freq_band_size:(freq_band_index + 1) * freq_band_size, :]) \
+            / freq_bands
+
+    # calculating Pearson Correlation for every time block
+    from scipy.stats import pearsonr
+    coeffs = numpy.zeros(shape=(freq_bands, freq_bands))
+    for i in range(0, wavedata_with_reduced_freq_bands[1].size, hop_size):
+        sound_block = wavedata_with_reduced_freq_bands[:, i:(i + block_size)]
+        for j in range(freq_bands):
+            for k in range(freq_bands):
+                if j == k:
+                    coeffs[j, k] = 1
+                elif j > k:
+                    coeffs[j, k] = coeffs[k, j]
+                else:
+                    coeffs[j, k] = \
+                    pearsonr(numpy.array(sound_block[j], dtype=float), numpy.array(sound_block[k], dtype=float))[0]
+
+
 def variance_delta_spectral_pattern(wavedata_preprocessed):
     return spectral_pattern_base(wavedata_preprocessed,
                                  3,
@@ -90,14 +123,14 @@ def meanblock(data):
 
     summed_block = numpy.zeros((len(data[0]), len(data[0][0])))
     for time_block in range(time_blocks - 1):
-        summed_block = sum_two_arrays(summed_block, data[time_block])
+        summed_block = sum_two_2d_arrays(summed_block, data[time_block])
 
     mean_block = summed_block / time_blocks
 
     return mean_block
 
 
-def sum_two_arrays(arr1, arr2):
+def sum_two_2d_arrays(arr1, arr2):
     for i in range(len(arr2)):
         for j in range(len(arr2[0])):
             arr1[i][j] = arr1[i][j] + arr2[i][j]
