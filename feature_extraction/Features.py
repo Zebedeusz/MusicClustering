@@ -1,25 +1,34 @@
+def spectral_contrast_pattern(wavedata):
+    from librosa.feature import spectral_contrast
+
+    block_size = 40
+    hop_size = 20
+    freq_bands = 20
+    percentile = 0.1
+
+    # wavedata_with_reduced_freq_bands = reduce_frequency_bands(wavedata_preprocessed, freq_bands)
+
+    scp = spectral_contrast(y=wavedata)
+
+    print(scp)
+
+
 def correlation_pattern(wavedata_preprocessed):
     import numpy
 
     block_size = 256
     hop_size = 128
     freq_bands = 52
+    percentile = 0.5
 
-    # reducing number of frequency bands
-    freq_band_size = len(wavedata_preprocessed) // freq_bands
-    wavedata_with_reduced_freq_bands = numpy.zeros(shape=(freq_bands, wavedata_preprocessed.shape[1]))
-
-    for freq_band_index in range(freq_bands - 1):
-        wavedata_with_reduced_freq_bands[freq_band_index] = \
-            numpy.sum(
-                wavedata_preprocessed[freq_band_index * freq_band_size:(freq_band_index + 1) * freq_band_size, :]) \
-            / freq_bands
+    wavedata_with_reduced_freq_bands = reduce_frequency_bands(wavedata_preprocessed, freq_bands)
 
     # calculating Pearson Correlation for every time block
     from scipy.stats import pearsonr
-    coeffs = numpy.zeros(shape=(freq_bands, freq_bands))
+    all_coeffs = []
     for i in range(0, wavedata_with_reduced_freq_bands[1].size, hop_size):
         sound_block = wavedata_with_reduced_freq_bands[:, i:(i + block_size)]
+        coeffs = numpy.zeros(shape=(freq_bands, freq_bands))
         for j in range(freq_bands):
             for k in range(freq_bands):
                 if j == k:
@@ -28,8 +37,37 @@ def correlation_pattern(wavedata_preprocessed):
                     coeffs[j, k] = coeffs[k, j]
                 else:
                     coeffs[j, k] = \
-                    pearsonr(numpy.array(sound_block[j], dtype=float), numpy.array(sound_block[k], dtype=float))[0]
+                        pearsonr(numpy.array(sound_block[j], dtype=numpy.float64),
+                                 numpy.array(sound_block[k], dtype=numpy.float64))[0]
+        coeffs = numpy.nan_to_num(coeffs)
+        all_coeffs.append(coeffs)
+    all_coeffs = numpy.array(all_coeffs)
 
+    # percentile as 2d-array with highest sum of it's elements
+    import math
+    summed_all_coeffs = []
+    for coeffs in all_coeffs:
+        summed_all_coeffs.append(numpy.sum(coeffs))
+    sorted_summed_all_coeffs = sorted(summed_all_coeffs)
+    perc_index = math.ceil(percentile * len(sorted_summed_all_coeffs))
+    perc = all_coeffs[perc_index]
+
+    return perc
+
+
+def reduce_frequency_bands(wavedata, freq_bands):
+    import numpy
+
+    freq_band_size = len(wavedata) // freq_bands
+    wavedata_with_reduced_freq_bands = numpy.zeros(shape=(freq_bands, wavedata.shape[1]))
+
+    for freq_band_index in range(freq_bands - 1):
+        wavedata_with_reduced_freq_bands[freq_band_index] = \
+            numpy.sum(
+                wavedata[freq_band_index * freq_band_size:(freq_band_index + 1) * freq_band_size, :], axis=0) \
+            / freq_band_size
+
+    return wavedata_with_reduced_freq_bands
 
 def variance_delta_spectral_pattern(wavedata_preprocessed):
     return spectral_pattern_base(wavedata_preprocessed,
@@ -123,14 +161,14 @@ def meanblock(data):
 
     summed_block = numpy.zeros((len(data[0]), len(data[0][0])))
     for time_block in range(time_blocks - 1):
-        summed_block = sum_two_2d_arrays(summed_block, data[time_block])
+        summed_block = sum_2d_arrays(summed_block, data[time_block])
 
     mean_block = summed_block / time_blocks
 
     return mean_block
 
 
-def sum_two_2d_arrays(arr1, arr2):
+def sum_2d_arrays(arr1, arr2):
     for i in range(len(arr2)):
         for j in range(len(arr2[0])):
             arr1[i][j] = arr1[i][j] + arr2[i][j]
