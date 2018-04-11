@@ -21,6 +21,20 @@ def read_and_save_features_from_files_in_path(path, features, csvSavePath):
             print(features + " extracted from " + filename + " and saved as " + csv_filename)
 
 
+def get_features_of_files_in_path(path, features):
+    import os
+    import numpy
+
+    extracted_features = []
+
+    for (dirpath, dirnames, filenames) in os.walk(path):
+        for filename in filenames:
+            if str(filename).endswith(".wav"):
+                extracted_features.append(get_features_of_file(path + "/" + filename, features))
+                print("Extracted from " + filename)
+
+    return numpy.array(extracted_features)
+
 def get_features_of_file(filepath, features):
 
     def add_feature_to_list(feature):
@@ -31,8 +45,8 @@ def get_features_of_file(filepath, features):
         else:
             extracted_features.append(feature)
 
-
     import scipy.io.wavfile as wav
+    import numpy
     from feature_extraction.FeaturesFacade import get_feature
 
     extracted_features = []
@@ -48,7 +62,7 @@ def get_features_of_file(filepath, features):
     for feature in features:
         add_feature_to_list(get_feature(feature, sound, filepath))
 
-    return extracted_features
+    return numpy.asarray(extracted_features)
 
 def get_gmms_from_mfccs_of_filepath(filepath):
     import numpy

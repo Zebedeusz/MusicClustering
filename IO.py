@@ -1,7 +1,7 @@
 import csv
-import numpy
-import math
 import os
+
+import numpy
 
 
 def load_data_from_file(path):
@@ -14,28 +14,12 @@ def load_data_from_file(path):
                 for row in reader:
                     temp_arr.append(row)
                 data.append(temp_arr)
-        data = numpy.asarray(data)
         data = numpy.asarray(data, 'float32')
 
-        #check for infinities or nans
-        sp_num = 0
-        for sp in data:
-            sp_row_num = 0
-            for sp_row in sp:
-                sp_el_num = 0
-                for sp_el in sp_row:
-                    if math.isnan(sp_el):
-                        data[sp_num, sp_row_num, sp_el_num] = 0.0
-                    if math.isinf(sp_el):
-                        if (sp_el < 0):
-                            data[sp_num, sp_row_num, sp_el_num] = 0.0
-                        else:
-                            data[sp_num, sp_row_num, sp_el_num] = 1.0
-                    sp_el_num += 1
-                sp_row_num += 1
-            sp_num += 1
+        data = numpy.nan_to_num(data)
 
         print("spectrograms loaded")
+
     return data
 
 def read_features_from_file(path, omit_first_column = False):
@@ -44,15 +28,10 @@ def read_features_from_file(path, omit_first_column = False):
         reader = csv.reader(f, delimiter=",")
         for row in reader:
             features.append(row)
-    #features = numpy.asarray(features, dtype="float32")
-    #features *= 10000
-    #print(numpy.min(features))
-    #print(numpy.max(features))
     if(omit_first_column):
         for row in features:
             del row[0]
     features = numpy.asarray(features, dtype="float32")
-    print(numpy.shape(features))
     return features
 
 def read_valence_arousal(plot):

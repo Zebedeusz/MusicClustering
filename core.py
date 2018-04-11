@@ -17,18 +17,21 @@ eerola_fp = "/media/michal/HDD/Music Emotion Datasets/Decoded/Fluctuation Patter
 
 test_file = "resources/test_file.wav"
 
+from Clustering import cluster_hierarchical
 from feature_extraction.FeaturesFacade import Feature
-from feature_extraction.helper import get_features_of_file
+# fs = get_features_of_file(test_file, [Feature.COMPRESS_FEATURE])
+# print(fs)
+from feature_extraction.helper import get_features_of_files_in_path
 
-fs = get_features_of_file(test_file, [Feature.COMPRESS_FEATURE])
-print(fs)
+fs = get_features_of_files_in_path(eerola, [Feature.CORRELATION_PATTERN])
+print(fs.shape)
 
 #read_and_save_features_from_files_in_path(filepath2, "mfcc", filepath2)
 
 #gmms = get_gmms_from_mfccs_of_filepath(filepath2)
 
-# cluster_som(samples)
-# cluster_hierarchical(samples)
+# cluster_som(fs)
+cluster_hierarchical(fs)
 # from Statistics import variance_distribution
 # from IO import read_features_from_file
 # fps = read_features_from_file(eerola_fp, True)
