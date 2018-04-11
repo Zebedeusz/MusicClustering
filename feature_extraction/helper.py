@@ -33,7 +33,7 @@ def get_features_of_file(filepath, features):
 
 
     import scipy.io.wavfile as wav
-    from feature_extraction.FeaturesProxy import get_feature
+    from feature_extraction.FeaturesFacade import get_feature
 
     extracted_features = []
 

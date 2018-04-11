@@ -17,7 +17,7 @@ eerola_fp = "/media/michal/HDD/Music Emotion Datasets/Decoded/Fluctuation Patter
 
 test_file = "resources/test_file.wav"
 
-from feature_extraction.FeaturesProxy import Feature
+from feature_extraction.FeaturesFacade import Feature
 from feature_extraction.helper import get_features_of_file
 
 fs = get_features_of_file(test_file, [Feature.COMPRESS_FEATURE])

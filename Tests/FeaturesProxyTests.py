@@ -13,15 +13,15 @@ class FeaturesProxyTests(unittest.TestCase):
 
     def test_spectral_base(self):
         import scipy.io.wavfile as wav
-        from feature_extraction.FeaturesProxy import preprocessToKeplerUniFeatures
-        from feature_extraction.Features import correlation_pattern
+        from feature_extraction.Features import spectral_contrast_pattern
 
         f, sound = wav.read(self.test_file)
 
-        soundP = preprocessToKeplerUniFeatures(sound)
-        # s = spectral_pattern_base(soundP, 3, 10, 5, True, 0)
+        # soundP = preprocessToKeplerUniFeatures(sound)
+        # s = spectral_pattern_base(soundP, 3, 10, 5, False, 0.1)
         # spectral_pattern(soundP)
-        correlation_pattern(soundP)
+        # correlation_pattern(soundP)
+        spectral_contrast_pattern(sound)
         #print(s)
 
 
