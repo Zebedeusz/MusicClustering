@@ -1,6 +1,7 @@
 def spectral_contrast_pattern(wavedata):
     from librosa.feature import spectral_contrast
     from feature_extraction.Utilities import sort_freq_bands_in_blocks, percentile_element_wise_for_3d_array
+    import numpy
 
     block_size = 40
     hop_size = 20
@@ -9,7 +10,9 @@ def spectral_contrast_pattern(wavedata):
     scp = spectral_contrast(y=wavedata)
     scp_blocks_with_sorted_freq_bands = sort_freq_bands_in_blocks(scp, block_size, hop_size)
     perc = percentile_element_wise_for_3d_array(scp_blocks_with_sorted_freq_bands, percentile)
-    return perc
+    # summarization from 2d to 1d by median
+    median = numpy.median(perc, axis=1)
+    return median
 
 def correlation_pattern(wavedata_preprocessed):
     import numpy
@@ -52,7 +55,9 @@ def correlation_pattern(wavedata_preprocessed):
     # perc = all_coeffs[perc_index]
 
     perc = percentile_element_wise_for_3d_array(all_coeffs, percentile)
-    return perc
+    # summarization from 2d to 1d by median
+    median = numpy.median(perc, axis=1)
+    return median
 
 
 def variance_delta_spectral_pattern(wavedata_preprocessed):
@@ -104,7 +109,9 @@ def spectral_pattern_base(wavedata_preprocessed,
     if (variance_summarization):
         sound_blocks_with_sorted_freq_bands = numpy.array(sound_blocks_with_sorted_freq_bands)
         variance_of_time_blocks = varianceblock(sound_blocks_with_sorted_freq_bands)
-        return variance_of_time_blocks
+        # summarization from 2d to 1d by median
+        median = numpy.median(variance_of_time_blocks, axis=1)
+        return median
 
     if (percentile_summarization):
         # summed_sound_blocks_with_sorted_freq_bands = []
@@ -121,7 +128,9 @@ def spectral_pattern_base(wavedata_preprocessed,
         # percentile as 2d-array calculated element-wise
         perc = percentile_element_wise_for_3d_array(sound_blocks_with_sorted_freq_bands, percentile_summarization)
 
-        return perc
+        # summarization from 2d to 1d by median
+        median = numpy.median(perc, axis=1)
+        return median
 
 def median_spectral_band_energy(wavedata):
     import numpy

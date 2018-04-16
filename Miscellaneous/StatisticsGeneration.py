@@ -16,7 +16,6 @@ def provide_data_statistics_path(path):
 # finds all catalogues named "gmm_pkl" in root_catalogue path and saves them in a list - returns the list
 def find_gmm_pkl_catalogues(root_catalogue):
     import os
-    import itertools
     pkl_catalogues = []
     for (dirpath, dirnames, filenames) in os.walk(root_catalogue):
         for dirname in dirnames:
@@ -32,8 +31,7 @@ def find_gmm_pkl_catalogues(root_catalogue):
 # samples pkls in those catalouges and analyzes variance after one sampling
 #results are saved at data_statstics folder
 def analyse_mfcc_gmm_sampling_variance(catalogue):
-
-    from Statistics import variance_distribution
+    from Miscellaneous.Statistics import variance_distribution
     gmm_pkl_catalogues = find_gmm_pkl_catalogues(catalogue)
     for pkl_catalogue in gmm_pkl_catalogues:
         variance_distribution(
@@ -45,8 +43,7 @@ def analyse_mfcc_gmm_sampling_variance(catalogue):
 # samples pkls in those catalouges and analyzes variance after multiple sampling
 #results are saved at data_statstics folder
 def analyse_multiple_mfcc_gmm_sampling_variance(catalogue):
-
-    from Statistics import variance_distribution_of_variances_from_gmms
+    from Miscellaneous.Statistics import variance_distribution_of_variances_from_gmms
     gmm_pkl_catalogues = find_gmm_pkl_catalogues(catalogue)
     for pkl_catalogue in gmm_pkl_catalogues:
         variance_distribution_of_variances_from_gmms(
@@ -55,7 +52,7 @@ def analyse_multiple_mfcc_gmm_sampling_variance(catalogue):
             provide_data_statistics_path(get_parent_directory(pkl_catalogue)) + "/variance_distribution_of_variances_from_gmms.png")
 
 def analyse_fps_variance(catalogue):
-    from Statistics import variance_distribution
+    from Miscellaneous.Statistics import variance_distribution
     from IO import read_features_from_file
     import os
 
@@ -71,7 +68,7 @@ def analyse_fps_variance(catalogue):
 # the function caclulates variance of fps for every file of provided dataset name in catalogue
 # and saves .png in data_statistics folder
 def analyse_fps_variance_for_specified_datasets(catalogue, dataset_name):
-    from Statistics import variance_distribution
+    from Miscellaneous.Statistics import variance_distribution
     from IO import read_features_from_file
     import os
 

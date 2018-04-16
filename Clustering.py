@@ -109,9 +109,6 @@ def cluster_dbscan(data, eps, min_samples):
 
 
 def cluster_som(data):
-    import matplotlib.pylab as plt
-    import pandas as pd
-    import numpy as np
     import sompy
 
     mapsize = [40, 40]
@@ -127,8 +124,8 @@ def cluster_som(data):
     v.show(som, what='codebook', which_dim='all', cmap='jet', col_sz=6)
 
     # v = sompy.mapview.View2DPacked(2, 2)
-    # cl = som.cluster(n_clusters=4)
-    # getattr(som, 'cluster_labels')
+    cl = som.cluster(n_clusters=4)
+    return getattr(som, 'cluster_labels')
 
 def cluster_hierarchical(data):
     import numpy

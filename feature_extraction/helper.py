@@ -1,24 +1,31 @@
+def save_pkl_with_feature_for_dataset(path, feature):
+    from sklearn.externals import joblib
+    import os
+
+    extracted_features = get_features_of_files_in_path(path, feature)
+    if not os.path.isdir(path + "/features_dumps"):
+        os.mkdir(path + "/features_dumps")
+    joblib.dump(extracted_features, path + "/features_dumps/" + feature[0].value + ".pkl")
 
 def read_and_save_features_from_files_in_path(path, features, csvSavePath):
     import os
 
-    extracted_features = []
-
     for (dirpath, dirnames, filenames) in os.walk(path):
         for filename in filenames:
-            extracted_features = get_features_of_file(path + "/" + filename, features)
+            if str(filename).endswith(".wav"):
+                extracted_features = get_features_of_file(path + "/" + filename, features)
 
-            csv_filename = str(filename).replace(".wav", ".csv")
+                csv_filename = str(filename).replace(".wav", ".csv")
 
-            if csvSavePath is not "":
-                with open(csvSavePath + "/" + csv_filename, 'w') as csvfile:
-                    for row in extracted_features:
-                        for el in row:
-                            csvfile.write(str(el))
-                            csvfile.write(",")
-                        csvfile.write("\n")
-                    csvfile.close()
-            print(features + " extracted from " + filename + " and saved as " + csv_filename)
+                if csvSavePath is not "":
+                    with open(csvSavePath + "/" + csv_filename, 'w') as csvfile:
+                        for row in extracted_features:
+                            for el in row:
+                                csvfile.write(str(el))
+                                csvfile.write(",")
+                            csvfile.write("\n")
+                        csvfile.close()
+                print(features + " extracted from " + filename + " and saved as " + csv_filename)
 
 
 def get_features_of_files_in_path(path, features):
@@ -28,10 +35,19 @@ def get_features_of_files_in_path(path, features):
     extracted_features = []
 
     for (dirpath, dirnames, filenames) in os.walk(path):
+        files_qnt = len(filenames)
+        qnt = 1
+        if files_qnt > 0:
+            percentage = qnt // files_qnt
+            print("{} %".format(percentage))
         for filename in filenames:
             if str(filename).endswith(".wav"):
                 extracted_features.append(get_features_of_file(path + "/" + filename, features))
-                print("Extracted from " + filename)
+                qnt += 1
+                temp_percentage = qnt * 100 // files_qnt
+                if temp_percentage is not percentage:
+                    percentage = temp_percentage
+                    print("{} %".format(percentage))
 
     return numpy.array(extracted_features)
 
