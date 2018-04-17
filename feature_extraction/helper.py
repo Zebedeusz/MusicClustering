@@ -7,6 +7,7 @@ def save_pkl_with_feature_for_dataset(path, feature):
         os.mkdir(path + "/features_dumps")
     joblib.dump(extracted_features, path + "/features_dumps/" + feature[0].value + ".pkl")
 
+
 def read_and_save_features_from_files_in_path(path, features, csvSavePath):
     import os
 
@@ -51,8 +52,8 @@ def get_features_of_files_in_path(path, features):
 
     return numpy.array(extracted_features)
 
-def get_features_of_file(filepath, features):
 
+def get_features_of_file(filepath, features):
     def add_feature_to_list(feature):
         import collections
 
@@ -80,6 +81,7 @@ def get_features_of_file(filepath, features):
 
     return numpy.asarray(extracted_features)
 
+
 def get_gmms_from_mfccs_of_filepath(filepath):
     import numpy
     import os
@@ -94,7 +96,7 @@ def get_gmms_from_mfccs_of_filepath(filepath):
         percentage = qnt // files_qnt
         print("{} %".format(percentage))
         for filename in filenames:
-            #print("Extracting from file " + filename)
+            # print("Extracting from file " + filename)
             mfccs = get_features_of_file(filepath + "/" + filename, "mfcc")
             gmms = numpy.append(gmms, GaussianMixture(n_components=100).fit(mfccs))
             qnt += 1
@@ -104,6 +106,7 @@ def get_gmms_from_mfccs_of_filepath(filepath):
                 print("{} %".format(percentage))
 
     return gmms
+
 
 def save_gmms_from_mfccs_of_filepath(filepath):
     import os
@@ -117,7 +120,7 @@ def save_gmms_from_mfccs_of_filepath(filepath):
         percentage = qnt * 100 // files_qnt
         print("{} %".format(percentage))
         for filename in filenames:
-            #print("Extracting from file " + filename)
+            # print("Extracting from file " + filename)
             mfccs = get_features_of_file(filepath + "/" + filename, "mfcc")
             if len(mfccs) > 0 and mfccs is not None:
                 gmm = GaussianMixture(n_components=100).fit(mfccs)
@@ -128,6 +131,7 @@ def save_gmms_from_mfccs_of_filepath(filepath):
                 if temp_percentage is not percentage:
                     percentage = temp_percentage
                     print("{} %".format(percentage))
+
 
 def get_gmms_samples_from_path(pkl_filepath):
     import os

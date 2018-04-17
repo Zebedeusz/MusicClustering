@@ -1,12 +1,14 @@
 from __future__ import print_function
-import audioread
-import sys
-import os
-import wave
+
 import contextlib
+import os
+import sys
+import wave
+
+import audioread
 
 
-#decodes file on given path to .wav with 1 channel
+# decodes file on given path to .wav with 1 channel
 def decode_au(filename):
     filename = os.path.abspath(os.path.expanduser(filename))
     format = filename.split(".")[-1]
@@ -34,7 +36,8 @@ def decode_au(filename):
         print("File could not be decoded.", file=sys.stderr)
         sys.exit(1)
 
-#decodes file on given path to .wav with 1 channel
+
+# decodes file on given path to .wav with 1 channel
 def decode_mp3(filename):
     filename = os.path.abspath(os.path.expanduser(filename))
     format = filename.split(".")[-1]
@@ -48,7 +51,8 @@ def decode_mp3(filename):
     sound = sound.set_frame_rate(22050)
     sound.export(filename.replace("." + format, ".wav"), format="wav")
 
-#decodes file on given path to .wav with 1 channel
+
+# decodes file on given path to .wav with 1 channel
 def decode_wav(filename):
     filename = os.path.abspath(os.path.expanduser(filename))
     format = filename.split(".")[-1]
@@ -61,6 +65,7 @@ def decode_wav(filename):
     sound = sound.set_channels(1)
     sound = sound.set_frame_rate(22050)
     sound.export(filename.replace("." + format, "_ch1_fr22500.wav"), format="wav")
+
 
 def prepare_files_in_dir(directory):
     for (dirpath, dirnames, filenames) in os.walk(directory):
@@ -77,6 +82,7 @@ def prepare_files_in_dir(directory):
                 print("Format not recognised")
                 print(format)
 
+
 if __name__ == '__main__':
     directory = "/media/michal/HDD/Music Emotion Datasets/1000songs/clips_45seconds/"
     # for (dirpath, dirnames, filenames) in os.walk(directory):
@@ -84,5 +90,4 @@ if __name__ == '__main__':
     #         path = directory + "/" + dirname
     prepare_files_in_dir(directory)
 
-
-    #decode("/media/michal/HDD/Music Emotion Datasets/genres/genres/blues/blues.00000.au")
+    # decode("/media/michal/HDD/Music Emotion Datasets/genres/genres/blues/blues.00000.au")

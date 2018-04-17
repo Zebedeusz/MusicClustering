@@ -38,6 +38,7 @@ def preprocessToKeplerUniFeatures(sound):
 
     return sound_log_cent_scale
 
+
 def reduce_frequency_bands(wavedata, freq_bands):
     import numpy
 

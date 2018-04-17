@@ -1,4 +1,6 @@
 from enum import Enum
+
+
 class Feature(Enum):
     MFCC = "MFCC"
     MFCC40 = "MFCC40"
@@ -14,11 +16,10 @@ class Feature(Enum):
     CORRELATION_PATTERN = "CORRELATION PATTERN"
     SPECTRAL_CONTRAST_PATTERN = "SPECTRAL CONTRAST PATTERN"
 
-def get_feature(feature, sound, filepath):
 
+def get_feature(feature, sound, filepath):
     if not isinstance(feature, Feature):
         raise Exception("Unsupported data type as function parameter")
-
 
     if feature is Feature.MFCC:
         from feature_extraction.Features import mfcc

@@ -14,6 +14,7 @@ def spectral_contrast_pattern(wavedata):
     median = numpy.median(perc, axis=1)
     return median
 
+
 def correlation_pattern(wavedata_preprocessed):
     import numpy
     from feature_extraction.Utilities import reduce_frequency_bands, percentile_element_wise_for_3d_array
@@ -67,6 +68,7 @@ def variance_delta_spectral_pattern(wavedata_preprocessed):
                                  5,
                                  True,
                                  False)
+
 
 def delta_spectral_pattern(wavedata_preprocessed):
     return spectral_pattern_base(wavedata_preprocessed,
@@ -132,16 +134,18 @@ def spectral_pattern_base(wavedata_preprocessed,
         median = numpy.median(perc, axis=1)
         return median
 
+
 def median_spectral_band_energy(wavedata):
     import numpy
     from numpy.fft import fftpack
 
-    #magnitude_spectrum = stft(wavedata)
+    # magnitude_spectrum = stft(wavedata)
     fft = fftpack.fft(wavedata)
-    power_spectrum = numpy.abs(fft)**2
+    power_spectrum = numpy.abs(fft) ** 2
     return numpy.median(power_spectrum)
 
-#compresses wav file to flac and returns size of the flac file as feature value in bytes
+
+# compresses wav file to flac and returns size of the flac file as feature value in bytes
 def compressibility_feature(filepath_wav):
     import audiotools
     import os
@@ -153,6 +157,7 @@ def compressibility_feature(filepath_wav):
     os.remove(filepath_flac)
     return filesize
 
+
 def spectral_centroid(x):
     import numpy as np
 
@@ -163,12 +168,14 @@ def spectral_centroid(x):
     freqs = np.abs(np.fft.fftfreq(length, 1.0 / samplerate)[:length // 2 + 1])  # positive frequencies
     return np.sum(magnitudes * freqs) / np.sum(magnitudes)  # return weighted mean
 
+
 def mfcc(sound):
     from librosa.feature import mfcc
     import numpy
     mfcc = mfcc(sound)
     mfcc = numpy.reshape(mfcc, (mfcc.shape[1], mfcc.shape[0]))
     return mfcc
+
 
 def mfcc40(sound):
     from librosa.feature import mfcc

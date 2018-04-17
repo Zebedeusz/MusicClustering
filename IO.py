@@ -22,17 +22,19 @@ def load_data_from_file(path):
 
     return data
 
-def read_features_from_file(path, omit_first_column = False):
+
+def read_features_from_file(path, omit_first_column=False):
     with open(path, newline='') as f:
         features = []
         reader = csv.reader(f, delimiter=",")
         for row in reader:
             features.append(row)
-    if(omit_first_column):
+    if (omit_first_column):
         for row in features:
             del row[0]
     features = numpy.asarray(features, dtype="float32")
     return features
+
 
 def read_valence_arousal(plot):
     path = "/home/michal/PycharmProjects/Datasets/1000_songs_dataset/annotations/static_annotations_a_v_only.csv"
@@ -45,11 +47,10 @@ def read_valence_arousal(plot):
 
     if plot:
         import matplotlib.pyplot as plt
-        plt.plot(features[:,0], features[:,1], 'g.')
+        plt.plot(features[:, 0], features[:, 1], 'g.')
         plt.ylabel('arousal')
         plt.xlabel('valence')
         plt.savefig("/home/michal/PycharmProjects/AudioFeatureExtraction/charts/data_vis.png")
         plt.show()
 
     return features
-

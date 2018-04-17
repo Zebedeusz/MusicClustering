@@ -59,14 +59,13 @@ for dataset in datasets:
         print(f)
         fs = save_pkl_with_feature_for_dataset(dataset, [f])
 
-
         # fs = get_features_of_files_in_path(eerola, [Feature.CORRELATION_PATTERN])
-#read_and_save_features_from_files_in_path(filepath2, "mfcc", filepath2)
+# read_and_save_features_from_files_in_path(filepath2, "mfcc", filepath2)
 
-#gmms = get_gmms_from_mfccs_of_filepath(filepath2)
+# gmms = get_gmms_from_mfccs_of_filepath(filepath2)
 
 # cluster_som(fs)
-        #cluster_hierarchical(fs)
+# cluster_hierarchical(fs)
 # from Statistics import variance_distribution
 # from IO import read_features_from_file
 # fps = read_features_from_file(eerola_fp, True)

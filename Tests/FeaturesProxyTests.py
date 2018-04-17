@@ -1,5 +1,6 @@
 import unittest
 
+
 class FeaturesProxyTests(unittest.TestCase):
     test_file = "../resources/test_file.wav"
 
@@ -22,8 +23,7 @@ class FeaturesProxyTests(unittest.TestCase):
         # spectral_pattern(soundP)
         # correlation_pattern(soundP)
         spectral_contrast_pattern(sound)
-        #print(s)
-
+        # print(s)
 
 
 if __name__ == '__main__':

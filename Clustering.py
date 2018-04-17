@@ -2,21 +2,23 @@ import numpy
 
 from IO import read_features_from_file, read_valence_arousal
 
+
 def clustering_checks(features_path, features_file_name, save_path):
     numpy.random.seed(42)
 
-    features = read_features_from_file(path=features_path + features_file_name  + ".csv")
-    labels_encoded = cluster_k_means(features,5, False)
+    features = read_features_from_file(path=features_path + features_file_name + ".csv")
+    labels_encoded = cluster_k_means(features, 5, False)
 
     val_ar = read_valence_arousal(False)
-    labels_gt = cluster_k_means(val_ar,5, False)
+    labels_gt = cluster_k_means(val_ar, 5, False)
     from sklearn.metrics import silhouette_score
     with open(save_path + ".txt", 'w') as f:
-        f.write("VA number of clusters: " + cluster_sizes(labels_gt)+"\n")
-        f.write("VA silhuette: " + str(silhouette_score(val_ar, labels_gt)) +"\n")
-        f.write("features number of clusters: " + cluster_sizes(labels_encoded)+"\n")
-        f.write("features silhuette: " + str(silhouette_score(features, labels_encoded))+"\n")
+        f.write("VA number of clusters: " + cluster_sizes(labels_gt) + "\n")
+        f.write("VA silhuette: " + str(silhouette_score(val_ar, labels_gt)) + "\n")
+        f.write("features number of clusters: " + cluster_sizes(labels_encoded) + "\n")
+        f.write("features silhuette: " + str(silhouette_score(features, labels_encoded)) + "\n")
         f.close()
+
 
 def cluster_sizes(labels):
     cluster_sizes = []
@@ -29,7 +31,8 @@ def cluster_sizes(labels):
         cluster_sizes_str += str(e) + ", "
     return cluster_sizes_str
 
-def cluster_k_means(data,n_clusters, plot):
+
+def cluster_k_means(data, n_clusters, plot):
     from sklearn.cluster import KMeans
     from sklearn.metrics import silhouette_score
 
@@ -43,9 +46,8 @@ def cluster_k_means(data,n_clusters, plot):
         import matplotlib.pyplot as plt
 
         k_m_l = numpy.asarray(k_means.labels_, dtype="float32")
-        k_m_l = numpy.reshape(k_m_l, (-1,1))
+        k_m_l = numpy.reshape(k_m_l, (-1, 1))
         data_labaled = numpy.hstack((data, k_m_l))
-        colour = "r."
 
         for d in data_labaled:
             if d[2] == 0:
@@ -61,7 +63,7 @@ def cluster_k_means(data,n_clusters, plot):
             else:
                 colour = "r."
 
-            plt.plot(d[0],d[1],colour)
+            plt.plot(d[0], d[1], colour)
 
         plt.ylabel('arousal')
         plt.xlabel('valence')
@@ -69,7 +71,8 @@ def cluster_k_means(data,n_clusters, plot):
         plt.show()
 
     return k_means.labels_
-    #return cluster_sizes(k_means.labels_), silhouette_score(data, k_means.labels_)
+    # return cluster_sizes(k_means.labels_), silhouette_score(data, k_means.labels_)
+
 
 def cluster_dbscan(data, eps, min_samples):
     from sklearn.cluster import DBSCAN
@@ -85,7 +88,7 @@ def cluster_dbscan(data, eps, min_samples):
         import matplotlib.pyplot as plt
 
         k_m_l = numpy.asarray(dbscan.labels_, dtype="float32")
-        k_m_l = numpy.reshape(k_m_l, (-1,1))
+        k_m_l = numpy.reshape(k_m_l, (-1, 1))
         data_labaled = numpy.hstack((data, k_m_l))
         colour = "r."
 
@@ -103,7 +106,7 @@ def cluster_dbscan(data, eps, min_samples):
             else:
                 colour = "r."
 
-            plt.plot(d[0],d[1],colour)
+            plt.plot(d[0], d[1], colour)
 
         plt.show()
 
@@ -120,12 +123,13 @@ def cluster_som(data):
     v = sompy.mapview.View2DPacked(50, 50, title="")
     v.show(som, what='codebook', which_dim=[0, 1], cmap=None, col_sz=6)
 
-    #som.component_names = ['1', '2']
+    # som.component_names = ['1', '2']
     v.show(som, what='codebook', which_dim='all', cmap='jet', col_sz=6)
 
     # v = sompy.mapview.View2DPacked(2, 2)
     cl = som.cluster(n_clusters=4)
     return getattr(som, 'cluster_labels')
+
 
 def cluster_hierarchical(data):
     import numpy
@@ -156,6 +160,3 @@ def cluster_hierarchical(data):
     )
 
     plt.show()
-
-
-
