@@ -29,8 +29,22 @@ def load_feature_dumps(data_root_path, features):
 
     data_class_features = []
     for feature in features:
-        data_class_features = numpy.hstack((data_class_features,
-                                            joblib.load(data_root_path + dumps_path + feature[0].value + ".pkl")))
+        path = data_root_path + dumps_path + feature.value + ".pkl"
+        data_class_features = numpy.hstack((data_class_features, joblib.load(path)))
+    return data_class_features
+
+
+# loads numpy binaries with arrays with chosen features from root dataset path
+def load_feature_npys(data_root_path, features):
+    import numpy
+
+    data_class_features = []
+    for feature in features:
+        path = data_root_path + dumps_path + feature.value + ".npy"
+        if len(data_class_features) == 0:
+            data_class_features = numpy.load(path)
+        else:
+            data_class_features = numpy.hstack((data_class_features, numpy.load(path)))
     return data_class_features
 
 
@@ -47,7 +61,7 @@ def load_annotations(annotations_path):
 # and number of groups
 # and 2d array with emotions values for every element
 # calculates mean emotions values for elements in every group
-def analyse_clustering_results(groups_qnt, labels, annotations):
+def analyse_clustering_results(groups_qnt, labels, annotations, save_path=False):
     import numpy
 
     groups_with_annotated_elements = []
@@ -61,5 +75,8 @@ def analyse_clustering_results(groups_qnt, labels, annotations):
     for group in groups_with_annotated_elements:
         groups_annotated.append(numpy.mean(group, axis=0))
     groups_annotated = numpy.array(groups_annotated)
+
+    if save_path:
+        numpy.savetxt(save_path, groups_annotated, delimiter=",")
 
     return groups_annotated

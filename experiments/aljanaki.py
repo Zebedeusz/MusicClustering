@@ -16,7 +16,7 @@ def simplify_annotations_file():
         anns_for_id = []
         for row in entire_anns:
             if not int(row[0]) == i + 1:
-                break
+                continue
             anns_for_id.append(row[1:])
         if len(anns_for_id) > 0:
             simplified_annotations.append(numpy.mean(anns_for_id, axis=0))

@@ -32,15 +32,27 @@ def cluster_sizes(labels):
     return cluster_sizes_str
 
 
-def cluster_k_means(data, n_clusters, plot):
+def cluster_k_means(data, n_clusters, plot=False, stats_save_path=False):
     from sklearn.cluster import KMeans
     from sklearn.metrics import silhouette_score
 
     k_means = KMeans(n_clusters=n_clusters)
     k_means.fit(data)
 
+    if len(k_means.labels_) > 1:
+        sill = silhouette_score(data, k_means.labels_)
+    else:
+        sill = 0
+
     print("cluster sizes: {}".format(cluster_sizes(k_means.labels_)))
-    print("silhuette: {}".format(silhouette_score(data, k_means.labels_)))
+    print("silhuette: {}".format(sill))
+
+    if stats_save_path:
+        import csv
+        with open(stats_save_path, 'w') as csvfile:
+            writer = csv.writer(csvfile, delimiter=",")
+            writer.writerows([["cluster sizes", cluster_sizes(k_means.labels_)],
+                              ["silhuette", sill]])
 
     if plot and len(data[0]) == 2:
         import matplotlib.pyplot as plt
@@ -74,15 +86,28 @@ def cluster_k_means(data, n_clusters, plot):
     # return cluster_sizes(k_means.labels_), silhouette_score(data, k_means.labels_)
 
 
-def cluster_dbscan(data, eps, min_samples):
+def cluster_dbscan(data, eps, min_samples, stats_save_path=False):
     from sklearn.cluster import DBSCAN
     from sklearn.metrics import silhouette_score
 
     dbscan = DBSCAN(eps=eps, min_samples=min_samples)
     dbscan.fit(data)
+
+    if len(dbscan.labels_) > 1 and len(dbscan.labels_) < len(data):
+        print(len(dbscan.labels_))
+        sil = silhouette_score(data, dbscan.labels_)
+    else:
+        sil = 0
     print("number of clusters: {}".format(len(set(dbscan.labels_))))
     print("cluster sizes: {}".format(cluster_sizes(dbscan.labels_)))
-    print("silhuette: {}".format(silhouette_score(data, dbscan.labels_)))
+    print("silhuette: {}".format(sil))
+
+    if stats_save_path:
+        import csv
+        with open(stats_save_path, 'w') as csvfile:
+            writer = csv.writer(csvfile, delimiter=",")
+            writer.writerows([["cluster sizes", cluster_sizes(dbscan.labels_)],
+                              ["silhuette", sil]])
 
     if len(data[0]) == 2:
         import matplotlib.pyplot as plt
@@ -110,9 +135,12 @@ def cluster_dbscan(data, eps, min_samples):
 
         plt.show()
 
+    return dbscan.labels_
 
-def cluster_som(data):
+
+def cluster_som(data, n_clusters, stats_save_path=False):
     import sompy
+    from sklearn.metrics import silhouette_score
 
     mapsize = [40, 40]
     som = sompy.SOMFactory.build(data, mapsize, mask=None, mapshape='planar', lattice='rect', normalization='var',
@@ -120,15 +148,30 @@ def cluster_som(data):
                                  name='sompy')
     som.train(n_job=1, verbose='info')
 
-    v = sompy.mapview.View2DPacked(50, 50, title="")
-    v.show(som, what='codebook', which_dim=[0, 1], cmap=None, col_sz=6)
+    # v = sompy.mapview.View2DPacked(50, 50, title="")
+    # v.show(som, what='codebook', which_dim=[0, 1], cmap=None, col_sz=6)
 
     # som.component_names = ['1', '2']
-    v.show(som, what='codebook', which_dim='all', cmap='jet', col_sz=6)
+    # v.show(som, what='codebook', which_dim='all', cmap='jet', col_sz=6)
 
     # v = sompy.mapview.View2DPacked(2, 2)
-    cl = som.cluster(n_clusters=4)
-    return getattr(som, 'cluster_labels')
+    cl = som.cluster(n_clusters=n_clusters)
+
+    labels = getattr(som, 'cluster_labels')
+
+    if len(labels) > 1:
+        sil = silhouette_score(data, labels)
+    else:
+        sil = 0
+
+    if stats_save_path:
+        import csv
+        with open(stats_save_path, 'w') as csvfile:
+            writer = csv.writer(csvfile, delimiter=",")
+            writer.writerows([["cluster sizes", cluster_sizes(labels)],
+                              ["silhuette", sil]])
+
+    return labels
 
 
 def cluster_hierarchical(data):

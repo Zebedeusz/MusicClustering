@@ -39,7 +39,8 @@ def analyse_mfcc_gmm_sampling_variance(catalogue):
         variance_distribution(
             pkl_catalogue,
             False,
-            provide_data_statistics_path(get_parent_directory(pkl_catalogue)) + "/variance_distribution_from_gmms.png")
+            provide_data_statistics_path(
+                get_parent_directory(pkl_catalogue)) + "/variance_distribution_from_gmms_2.png")
 
 
 # looks for catalouges named "gmm_pkl" in given directory,
@@ -53,7 +54,7 @@ def analyse_multiple_mfcc_gmm_sampling_variance(catalogue):
             pkl_catalogue,
             100,
             provide_data_statistics_path(
-                get_parent_directory(pkl_catalogue)) + "/variance_distribution_of_variances_from_gmms.png")
+                get_parent_directory(pkl_catalogue)) + "/variance_distribution_of_variances_from_gmms_2.png")
 
 
 def analyse_fps_variance(catalogue):
@@ -68,7 +69,7 @@ def analyse_fps_variance(catalogue):
             if str(filename).__contains__(".csv"):
                 fps = read_features_from_file(catalogue + "/" + filename, True)
                 variance_distribution(fps, False, fps_data_path + "/" + str(filename).replace(".csv",
-                                                                                              "") + "_variance_distribution_from_fp.png",
+                                                                                              "") + "_variance_distribution_from_fp_2.png",
                                       "", 1)
 
 
@@ -94,11 +95,12 @@ def analyse_fps_variance_for_specified_datasets(catalogue, dataset_name):
         if str(csv_fp_filename).__contains__(".csv"):
             fps.extend(read_features_from_file(catalogue + "/" + csv_fp_filename, True))
 
-    variance_distribution(fps, False, fps_data_path + "/" + dataset_name + "_variance_distribution_from_fp.png", "", 1)
+    variance_distribution(fps, False, fps_data_path + "/" + dataset_name + "_variance_distribution_from_fp_2.png", "",
+                          1)
 
 
 if __name__ == '__main__':
-    # analyse_mfcc_gmm_sampling_variance('/media/michal/HDD/Music Emotion Datasets/Decoded')
-    analyse_multiple_mfcc_gmm_sampling_variance('/media/michal/HDD/Music Emotion Datasets/Decoded')
+    analyse_mfcc_gmm_sampling_variance('/media/michal/HDD/Music Emotion Datasets/Decoded')
+    # analyse_multiple_mfcc_gmm_sampling_variance('/media/michal/HDD/Music Emotion Datasets/Decoded')
     # analyse_fps_variance("/media/michal/HDD/Music Emotion Datasets/Decoded/Fluctuation Patterns")
     # analyse_fps_variance_for_specified_datasets("/media/michal/HDD/Music Emotion Datasets/Decoded/Fluctuation Patterns", "ISMIR2012")

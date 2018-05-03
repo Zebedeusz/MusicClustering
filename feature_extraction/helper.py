@@ -8,6 +8,16 @@ def save_pkl_with_feature_for_dataset(path, feature):
     joblib.dump(extracted_features, path + "/features_dumps/" + feature[0].value + ".pkl")
 
 
+def save_npy_with_feature_for_dataset(path, feature):
+    import os
+    import numpy
+
+    extracted_features = get_features_of_files_in_path(path, feature)
+    if not os.path.isdir(path + "/features_dumps"):
+        os.mkdir(path + "/features_dumps")
+    numpy.save(path + "/features_dumps/" + feature[0].value, extracted_features)
+    numpy.savetxt(path + "/features_dumps/" + feature[0].value + ".csv", extracted_features, delimiter=",")
+
 def read_and_save_features_from_files_in_path(path, features, csvSavePath):
     import os
 
@@ -32,6 +42,8 @@ def read_and_save_features_from_files_in_path(path, features, csvSavePath):
 def get_features_of_files_in_path(path, features):
     import os
     import numpy
+    from sklearn.preprocessing import normalize
+    from sklearn.decomposition import PCA
 
     extracted_features = []
 
@@ -50,7 +62,13 @@ def get_features_of_files_in_path(path, features):
                     percentage = temp_percentage
                     print("{} %".format(percentage))
 
-    return numpy.array(extracted_features)
+    extracted_features = normalize(numpy.array(extracted_features), axis=0)
+    if (extracted_features.shape[1] > 40):
+        pca = PCA(n_components=40)
+        extracted_features = pca.fit_transform(extracted_features)
+        extracted_features = normalize(extracted_features, axis=0)
+
+    return extracted_features
 
 
 def get_features_of_file(filepath, features):
@@ -65,10 +83,13 @@ def get_features_of_file(filepath, features):
     import scipy.io.wavfile as wav
     import numpy
     from feature_extraction.FeaturesFacade import get_feature
+    import datetime
 
+    print("{} : working with file: {}".format(datetime.datetime.now().time(), filepath))
     extracted_features = []
 
     try:
+        print("Reading wave content")
         f, sound = wav.read(filepath)
     except FileNotFoundError:
         return extracted_features
@@ -77,6 +98,7 @@ def get_features_of_file(filepath, features):
         raise Exception("Unsupported data type as function parameter")
 
     for feature in features:
+        print("Reading " + feature.value)
         add_feature_to_list(get_feature(feature, sound, filepath))
 
     return numpy.asarray(extracted_features)
@@ -151,3 +173,19 @@ def get_gmms_samples_from_path(pkl_filepath):
     samples = samples.reshape([samples.shape[0], samples.shape[2]])
 
     return samples
+
+
+def load_fps_from_path(catalogue):
+    import os
+    from IO import read_features_from_file
+    import numpy
+
+    root_path = "/media/michal/HDD/Music Emotion Datasets/Decoded/Fluctuation Patterns/"
+
+    fps = []
+    for (dirpath, dirnames, filenames) in os.walk(root_path + catalogue):
+        for filename in filenames:
+            if str(filename).__contains__(".csv"):
+                fps.extend(read_features_from_file(root_path + catalogue + "/" + filename, True))
+
+    return numpy.array(fps)
