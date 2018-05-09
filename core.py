@@ -50,15 +50,17 @@ features = [Feature.COMPRESS_FEATURE,
             Feature.CORRELATION_PATTERN, Feature.SPECTRAL_CONTRAST_PATTERN]
 
 # , Feature.MEDIAN_SPECTRAL_BAND_ENERGY left for better times
-datasets = [ismir_angry]
-datasets_with_no_msbe = [ismir_happy, aljanaki_rock, aljanaki_pop,
+datasets = [ismir_angry, ismir_happy]
+datasets_with_no_msbe = [aljanaki_rock, aljanaki_pop,
                          aljanaki_electronic, aljanaki_classical]
 genres = [genres_blues, genres_classical, genres_country, genres_disco, genres_hiphop, genres_jazz, genres_metal,
           genres_pop, genres_reggae, genres_rock]
 
 datasets_with_no_msbe.extend(genres)
-datasets.extend(datasets_with_no_msbe)
-datasets.extend(genres)
+
+
+# datasets.extend(datasets_with_no_msbe)
+# datasets.extend(genres)
 
 
 def isFeatureSavedForDataset(path, feature):

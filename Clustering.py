@@ -82,7 +82,7 @@ def cluster_k_means(data, n_clusters, plot=False, stats_save_path=False):
         plt.savefig("/home/michal/PycharmProjects/AudioFeatureExtraction/charts/data_k_means_vis.png")
         plt.show()
 
-    return k_means.labels_
+    return k_means.labels_, cluster_sizes(k_means.labels_), sill
     # return cluster_sizes(k_means.labels_), silhouette_score(data, k_means.labels_)
 
 
@@ -93,7 +93,7 @@ def cluster_dbscan(data, eps, min_samples, stats_save_path=False):
     dbscan = DBSCAN(eps=eps, min_samples=min_samples)
     dbscan.fit(data)
 
-    if len(dbscan.labels_) > 1 and len(dbscan.labels_) < len(data):
+    if len(set(dbscan.labels_)) > 1:
         print(len(dbscan.labels_))
         sil = silhouette_score(data, dbscan.labels_)
     else:
@@ -135,7 +135,7 @@ def cluster_dbscan(data, eps, min_samples, stats_save_path=False):
 
         plt.show()
 
-    return dbscan.labels_
+    return dbscan.labels_, cluster_sizes(dbscan.labels_), sil
 
 
 def cluster_som(data, n_clusters, stats_save_path=False):
@@ -171,7 +171,7 @@ def cluster_som(data, n_clusters, stats_save_path=False):
             writer.writerows([["cluster sizes", cluster_sizes(labels)],
                               ["silhuette", sil]])
 
-    return labels
+    return labels, cluster_sizes(labels), sil
 
 
 def cluster_hierarchical(data):

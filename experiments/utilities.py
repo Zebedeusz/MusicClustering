@@ -76,7 +76,10 @@ def analyse_clustering_results(groups_qnt, labels, annotations, save_path=False)
         groups_annotated.append(numpy.mean(group, axis=0))
     groups_annotated = numpy.array(groups_annotated)
 
+    var = numpy.var(groups_annotated, axis=0)
+    summed_var = numpy.sum(var)
+
     if save_path:
         numpy.savetxt(save_path, groups_annotated, delimiter=",")
 
-    return groups_annotated
+    return summed_var
