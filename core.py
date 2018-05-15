@@ -45,7 +45,7 @@ from feature_extraction.FeaturesFacade import Feature
 # print(fs)
 from feature_extraction.helper import save_npy_with_feature_for_dataset
 
-features = [Feature.COMPRESS_FEATURE,
+features = [Feature.COMPRESS_FEATURE, Feature.MEDIAN_SPECTRAL_BAND_ENERGY, Feature.SPECTRAL_CENTROID,
             Feature.SPECTRAL_PATTERN, Feature.DELTA_SPECTRAL_PATTERN, Feature.VARIANCE_DELTA_SPECTRAL_PATTERN,
             Feature.CORRELATION_PATTERN, Feature.SPECTRAL_CONTRAST_PATTERN]
 

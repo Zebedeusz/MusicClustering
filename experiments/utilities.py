@@ -38,6 +38,11 @@ def load_feature_dumps(data_root_path, features):
 def load_feature_npys(data_root_path, features):
     import numpy
 
+    # TODO
+    # if there is no catalogue with dumps in data_root_path
+    # search for dumps catalogues in the root path
+    # for every found catalogue, read npys from it
+
     data_class_features = []
     for feature in features:
         path = data_root_path + dumps_path + feature.value + ".npy"
@@ -83,3 +88,40 @@ def analyse_clustering_results(groups_qnt, labels, annotations, save_path=False)
         numpy.savetxt(save_path, groups_annotated, delimiter=",")
 
     return summed_var
+
+
+def get_free_results_filepath(dataset_root_path, results_filename):
+    import os
+
+    results_dirpath = dataset_root_path + "experiments/"
+    results_filepath = results_dirpath + results_filename + ".csv"
+    file_no = 1
+    while os.path.exists(results_filepath):
+        results_filepath = results_dirpath + results_filename + "_{}.csv".format(file_no)
+        file_no += 1
+
+    return results_filepath
+
+
+def get_results_array_template(feature, cluster_sizes, eps_values, min_samples_qnts):
+    import numpy
+
+    results_array = numpy.zeros(shape=(3 + len(cluster_sizes) * 2 + (len(eps_values) * len(min_samples_qnts)), 7),
+                                dtype="S30")
+
+    results_array[0] = ['cechy', "metoda grupowania", "parametry", "", "rozmiary grup", "silhuette", "sum war"]
+    results_array[1] = ["", "", "liczebnosc grup", "", "", "", ""]
+    results_array[2, 0:2] = [feature, "k-srednich"]
+    results_array[2 + len(cluster_sizes), 1] = "SOM"
+    results_array[2 + 2 * len(cluster_sizes), 2:4] = ["eps", "min_samples"]
+    results_array[3 + 2 * len(cluster_sizes), 1] = "DBSCAN"
+
+    last_som_rom_no = 2 + 2 * len(cluster_sizes)
+    results_array[2:last_som_rom_no, 2] = numpy.asarray(cluster_sizes + cluster_sizes, dtype="S2")
+
+    first_dbscan_row_no = 3 + 2 * len(cluster_sizes)
+    last_dbscan_row_no = first_dbscan_row_no + (len(eps_values) * len(min_samples_qnts))
+    results_array[first_dbscan_row_no:last_dbscan_row_no, 2] = sorted(eps_values * len(min_samples_qnts))
+    results_array[first_dbscan_row_no:last_dbscan_row_no, 3] = min_samples_qnts * len(eps_values)
+
+    return results_array
