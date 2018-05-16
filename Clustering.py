@@ -32,20 +32,37 @@ def cluster_sizes(labels):
     return cluster_sizes_str
 
 
+def clustered_groups(data, labels):
+    clusters = []
+    for i in range(len(set(labels))):
+        clusters.append([])
+
+    for i in range(len(labels)):
+        clusters[labels[i]].append(data[i])
+
+    return clusters
+
 def cluster_k_means(data, n_clusters, plot=False, stats_save_path=False):
     from sklearn.cluster import KMeans
     from sklearn.metrics import silhouette_score
+    from jqmcvi.base import davisbouldin, dunn_fast
 
     k_means = KMeans(n_clusters=n_clusters)
     k_means.fit(data)
 
     if len(k_means.labels_) > 1:
         sill = silhouette_score(data, k_means.labels_)
+        dunn = dunn_fast(data, k_means.labels_)
+        davisb = davisbouldin(clustered_groups(data, k_means.labels_), k_means.cluster_centers_)
     else:
         sill = 0
+        dunn = 0
+        davisb = 0
 
     print("cluster sizes: {}".format(cluster_sizes(k_means.labels_)))
     print("silhuette: {}".format(sill))
+    print("dunn: {}".format(dunn))
+    print("davies_bouldin: {}".format(davisb))
 
     if stats_save_path:
         import csv
@@ -82,13 +99,14 @@ def cluster_k_means(data, n_clusters, plot=False, stats_save_path=False):
         plt.savefig("/home/michal/PycharmProjects/AudioFeatureExtraction/charts/data_k_means_vis.png")
         plt.show()
 
-    return k_means.labels_, cluster_sizes(k_means.labels_), sill
+    return k_means.labels_, cluster_sizes(k_means.labels_), sill, dunn, davisb
     # return cluster_sizes(k_means.labels_), silhouette_score(data, k_means.labels_)
 
 
 def cluster_dbscan(data, eps, min_samples, stats_save_path=False):
     from sklearn.cluster import DBSCAN
     from sklearn.metrics import silhouette_score
+    from jqmcvi.base import dunn_fast
 
     dbscan = DBSCAN(eps=eps, min_samples=min_samples)
     dbscan.fit(data)
@@ -96,11 +114,15 @@ def cluster_dbscan(data, eps, min_samples, stats_save_path=False):
     if len(set(dbscan.labels_)) > 1:
         print(len(dbscan.labels_))
         sil = silhouette_score(data, dbscan.labels_)
+        dunn = dunn_fast(data, dbscan.labels_)
     else:
         sil = 0
+        dunn = 0
+
     print("number of clusters: {}".format(len(set(dbscan.labels_))))
     print("cluster sizes: {}".format(cluster_sizes(dbscan.labels_)))
     print("silhuette: {}".format(sil))
+    print("dunn: {}".format(dunn))
 
     if stats_save_path:
         import csv
@@ -135,7 +157,7 @@ def cluster_dbscan(data, eps, min_samples, stats_save_path=False):
 
         plt.show()
 
-    return dbscan.labels_, cluster_sizes(dbscan.labels_), sil
+    return dbscan.labels_, cluster_sizes(dbscan.labels_), sil, dunn
 
 
 def cluster_som(data, n_clusters, stats_save_path=False):

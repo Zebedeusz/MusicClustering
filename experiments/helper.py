@@ -9,8 +9,8 @@ clustering_methods = ["k_means", "dbscan"]
 # annotations table constants
 group_sizes_col = 4
 sil_col = 5
-sum_war_col = 6
-
+dunn_col = 6
+davies_col = 7
 
 def conduct_experiments(dataset_name, cluster_sizes, eps_values, min_samples_qnts):
     import numpy
@@ -50,7 +50,7 @@ def conduct_experiments(dataset_name, cluster_sizes, eps_values, min_samples_qnt
                 if method_name == "k_means":
                     row = 2
                     for n_clusters in cluster_sizes:
-                        labels, group_sizes, sil = cluster_k_means(f, n_clusters)
+                        labels, group_sizes, sil, dunn, davisb = cluster_k_means(f, n_clusters)
                         summed_var = analyse_clustering_results(n_clusters, labels, anns,
                                                                 save_path=root_datasets_path + "/" + dataset_name
                                                                           + "/experiments/" + f_name + "/" + method_name
@@ -61,14 +61,15 @@ def conduct_experiments(dataset_name, cluster_sizes, eps_values, min_samples_qnt
                         group_sizes = ";".join([str(s) for s in group_sizes])
                         results_array[row, group_sizes_col] = group_sizes
                         results_array[row, sil_col] = sil
-                        results_array[row, sum_war_col] = summed_var
+                        results_array[row, dunn_col] = dunn
+                        results_array[row, davies_col] = davisb
                         row += 1
 
                 elif method_name == "dbscan":
                     row = 3 + 2 * len(cluster_sizes)
                     for eps in eps_values:
                         for min_samples in min_samples_qnts:
-                            labels, group_sizes, sil = cluster_dbscan(f, eps, min_samples)
+                            labels, group_sizes, sil, dunn = cluster_dbscan(f, eps, min_samples)
                             summed_var = analyse_clustering_results(len(set(labels)), labels, anns,
                                                                     save_path=root_datasets_path + "/" + dataset_name
                                                                               + "/experiments/" + f_name + "/" + method_name
@@ -80,7 +81,8 @@ def conduct_experiments(dataset_name, cluster_sizes, eps_values, min_samples_qnt
                             group_sizes = ";".join([str(s) for s in group_sizes])
                             results_array[row, group_sizes_col] = group_sizes
                             results_array[row, sil_col] = sil
-                            results_array[row, sum_war_col] = summed_var
+                            results_array[row, dunn_col] = dunn
+                            results_array[row, davies_col] = davisb
                             row += 1
 
                 elif method_name == "som":
@@ -98,7 +100,7 @@ def conduct_experiments(dataset_name, cluster_sizes, eps_values, min_samples_qnt
                         group_sizes = ";".join([str(s) for s in group_sizes])
                         results_array[row, group_sizes_col] = group_sizes
                         results_array[row, sil_col] = sil
-                        results_array[row, sum_war_col] = summed_var
+                        results_array[row, 8] = summed_var
                         row += 1
         finally:
             numpy.savetxt(get_free_results_filepath(root_datasets_path + "/" + dataset_name + "/", f_name),

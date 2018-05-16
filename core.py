@@ -50,7 +50,7 @@ features = [Feature.COMPRESS_FEATURE, Feature.MEDIAN_SPECTRAL_BAND_ENERGY, Featu
             Feature.CORRELATION_PATTERN, Feature.SPECTRAL_CONTRAST_PATTERN]
 
 # , Feature.MEDIAN_SPECTRAL_BAND_ENERGY left for better times
-datasets = [ismir_angry, ismir_happy]
+datasets = [ismir_happy]
 datasets_with_no_msbe = [aljanaki_rock, aljanaki_pop,
                          aljanaki_electronic, aljanaki_classical]
 genres = [genres_blues, genres_classical, genres_country, genres_disco, genres_hiphop, genres_jazz, genres_metal,
