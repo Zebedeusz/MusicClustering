@@ -108,6 +108,7 @@ def get_gmms_from_mfccs_of_filepath(filepath):
     import numpy
     import os
     from sklearn.mixture import GaussianMixture
+    from feature_extraction.FeaturesFacade import Feature
 
     gmms = numpy.array([])
 
@@ -118,8 +119,7 @@ def get_gmms_from_mfccs_of_filepath(filepath):
         percentage = qnt // files_qnt
         print("{} %".format(percentage))
         for filename in filenames:
-            # print("Extracting from file " + filename)
-            mfccs = get_features_of_file(filepath + "/" + filename, "mfcc")
+            mfccs = get_features_of_file(filepath + "/" + filename, Feature.MFCC)
             gmms = numpy.append(gmms, GaussianMixture(n_components=100).fit(mfccs))
             qnt += 1
             temp_percentage = qnt * 100 // files_qnt
@@ -134,6 +134,7 @@ def save_gmms_from_mfccs_of_filepath(filepath):
     import os
     from sklearn.mixture import GaussianMixture
     from sklearn.externals import joblib
+    from feature_extraction.FeaturesFacade import Feature
 
     for (dirpath, dirnames, filenames) in os.walk(filepath):
         print("Extracting MFCC GMMs from files in " + filepath)
@@ -142,8 +143,7 @@ def save_gmms_from_mfccs_of_filepath(filepath):
         percentage = qnt * 100 // files_qnt
         print("{} %".format(percentage))
         for filename in filenames:
-            # print("Extracting from file " + filename)
-            mfccs = get_features_of_file(filepath + "/" + filename, "mfcc")
+            mfccs = get_features_of_file(filepath + "/" + filename, Feature.MFCC)
             if len(mfccs) > 0 and mfccs is not None:
                 gmm = GaussianMixture(n_components=100).fit(mfccs)
                 joblib.dump(gmm, filepath + "/gmm_pkl/" + filename.replace(".wav", ".pkl"))
@@ -163,10 +163,10 @@ def get_gmms_samples_from_path(pkl_filepath):
     samples = []
 
     for (dirpath, dirnames, filenames) in os.walk(pkl_filepath):
-        print("Reading .pkl GMM models from " + pkl_filepath)
+        print("Reading .pkl GMM models from " + dirpath)
         for filename in filenames:
             if str(filename).__contains__(".pkl"):
-                samples.append(joblib.load(pkl_filepath + "/" + filename).sample()[0])
+                samples.append(joblib.load(dirpath + "/" + filename).sample()[0])
 
     samples = numpy.array(samples)
 

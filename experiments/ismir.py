@@ -15,7 +15,7 @@ def generate_annotations_file():
     import numpy
 
     angry_files = 637
-    happy_files = 0
+    happy_files = 752
     relax_files = 750
     sad_files = 764
 

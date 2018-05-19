@@ -11,12 +11,12 @@ def load_and_annotate_feature_dumps(data_root_path, data_classes_dirs, features)
 
     annotated_features = {}
     for data_class_path in data_classes_dirs:
-        data_class_features = []
+        class_features = []
         for feature in features:
-            data_class_features = numpy.hstack((data_class_features,
-                                                joblib.load(data_root_path + data_class_path + dumps_path + feature[
+            class_features = numpy.hstack((class_features,
+                                           joblib.load(data_root_path + data_class_path + dumps_path + feature[
                                                     0].value + ".pkl")))
-        data_class_dict = {k: data_class_path.replace("/", "") for k in data_class_features}
+        data_class_dict = {k: data_class_path.replace("/", "") for k in class_features}
         annotated_features.update(data_class_dict)
 
     return annotated_features
@@ -27,11 +27,11 @@ def load_feature_dumps(data_root_path, features):
     import joblib
     import numpy
 
-    data_class_features = []
+    class_features = []
     for feature in features:
         path = data_root_path + dumps_path + feature.value + ".pkl"
-        data_class_features = numpy.hstack((data_class_features, joblib.load(path)))
-    return data_class_features
+        class_features = numpy.hstack((class_features, joblib.load(path)))
+    return class_features
 
 
 # loads numpy binaries with arrays with chosen features from root dataset path
@@ -39,10 +39,6 @@ def load_feature_npys(data_root_path, features):
     import numpy
     import os
 
-    # TODO
-    # if there is no catalogue with dumps in data_root_path
-    # search for dumps catalogues in the root path
-    # for every found catalogue, read npys from it
     npys_paths = []
     if (os.path.isdir(data_root_path + dumps_path)):
         npys_paths.append(data_root_path + dumps_path)
@@ -52,15 +48,19 @@ def load_feature_npys(data_root_path, features):
             if str(dir).__contains__("features_dumps"):
                 npys_paths.append(dir)
 
+    all_features = []
     for dir in npys_paths:
-        data_class_features = []
+        class_features = []
         for feature in features:
             path = dir + "/" + feature.value + ".npy"
-            if len(data_class_features) == 0:
-                data_class_features = numpy.load(path)
+            if len(class_features) == 0:
+                class_features = numpy.load(path)
             else:
-                data_class_features = numpy.hstack((data_class_features, numpy.load(path)))
-        return data_class_features
+                to_stack = numpy.load(path)
+                class_features = numpy.hstack((class_features, to_stack))
+        all_features.extend(class_features)
+    all_features = numpy.array(all_features)
+    return all_features
 
 
 # loads annotations saved in .csv file
@@ -91,13 +91,17 @@ def analyse_clustering_results(groups_qnt, labels, annotations, save_path=False)
         groups_annotated.append(numpy.mean(group, axis=0))
     groups_annotated = numpy.array(groups_annotated)
 
-    var = numpy.var(groups_annotated, axis=0)
-    summed_var = numpy.sum(var)
+    emotions_per_group = []
+    for group in groups_annotated:
+        max_el = numpy.max(group)
+        emotions_per_group.append(max_el - numpy.mean(numpy.delete(group, max_el)))
+
+    emotions_purity = numpy.mean(emotions_per_group)
 
     if save_path:
         numpy.savetxt(save_path, groups_annotated, delimiter=",", fmt='%.2e')
 
-    return summed_var
+    return emotions_purity
 
 
 def get_free_results_filepath(dataset_root_path, results_filename):
@@ -116,12 +120,12 @@ def get_free_results_filepath(dataset_root_path, results_filename):
 def get_results_array_template(feature, cluster_sizes, eps_values, min_samples_qnts):
     import numpy
 
-    results_array = numpy.zeros(shape=(3 + len(cluster_sizes) * 2 + (len(eps_values) * len(min_samples_qnts)), 8),
+    results_array = numpy.zeros(shape=(3 + len(cluster_sizes) * 2 + (len(eps_values) * len(min_samples_qnts)), 9),
                                 dtype="S30")
 
     results_array[0] = ['cechy', "metoda grupowania", "parametry", "", "rozmiary grup", "silhuette", "dunn",
-                        "davies-bouldin"]
-    results_array[1] = ["", "", "liczebnosc grup", "", "", "", "", ""]
+                        "davies-bouldin", "purity emocji"]
+    results_array[1] = ["", "", "liczebnosc grup", "", "", "", "", "", ""]
     results_array[2, 0:2] = [feature, "k-srednich"]
     results_array[2 + len(cluster_sizes), 1] = "SOM"
     results_array[2 + 2 * len(cluster_sizes), 2:4] = ["eps", "min_samples"]

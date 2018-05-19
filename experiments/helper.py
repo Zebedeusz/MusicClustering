@@ -11,6 +11,7 @@ group_sizes_col = 4
 sil_col = 5
 dunn_col = 6
 davies_col = 7
+emotions_purity_col = 8
 
 def conduct_experiments(dataset_name, cluster_sizes, eps_values, min_samples_qnts):
     import numpy
@@ -51,8 +52,8 @@ def conduct_experiments(dataset_name, cluster_sizes, eps_values, min_samples_qnt
                     row = 2
                     for n_clusters in cluster_sizes:
                         labels, group_sizes, sil, dunn, davisb = cluster_k_means(f, n_clusters)
-                        summed_var = analyse_clustering_results(n_clusters, labels, anns,
-                                                                save_path=root_datasets_path + "/" + dataset_name
+                        emotions_purity = analyse_clustering_results(n_clusters, labels, anns,
+                                                                     save_path=root_datasets_path + "/" + dataset_name
                                                                           + "/experiments/" + f_name + "/" + method_name
                                                                           + "_" + str(n_clusters) + ".csv")
 
@@ -63,6 +64,7 @@ def conduct_experiments(dataset_name, cluster_sizes, eps_values, min_samples_qnt
                         results_array[row, sil_col] = sil
                         results_array[row, dunn_col] = dunn
                         results_array[row, davies_col] = davisb
+                        results_array[row, emotions_purity_col] = emotions_purity
                         row += 1
 
                 elif method_name == "dbscan":
@@ -70,8 +72,8 @@ def conduct_experiments(dataset_name, cluster_sizes, eps_values, min_samples_qnt
                     for eps in eps_values:
                         for min_samples in min_samples_qnts:
                             labels, group_sizes, sil, dunn = cluster_dbscan(f, eps, min_samples)
-                            summed_var = analyse_clustering_results(len(set(labels)), labels, anns,
-                                                                    save_path=root_datasets_path + "/" + dataset_name
+                            emotions_purity = analyse_clustering_results(len(set(labels)), labels, anns,
+                                                                         save_path=root_datasets_path + "/" + dataset_name
                                                                               + "/experiments/" + f_name + "/" + method_name
                                                                               + "_" + str(eps) + "_" + str(
                                                                         min_samples) + ".csv")
@@ -82,15 +84,15 @@ def conduct_experiments(dataset_name, cluster_sizes, eps_values, min_samples_qnt
                             results_array[row, group_sizes_col] = group_sizes
                             results_array[row, sil_col] = sil
                             results_array[row, dunn_col] = dunn
-                            results_array[row, davies_col] = davisb
+                            results_array[row, emotions_purity_col] = emotions_purity
                             row += 1
 
                 elif method_name == "som":
                     row = 2 + len(cluster_sizes)
                     for n_clusters in cluster_sizes:
                         labels, group_sizes, sil = cluster_som(f, n_clusters)
-                        summed_var = analyse_clustering_results(n_clusters, labels, anns,
-                                                                save_path=root_datasets_path + "/" + dataset_name
+                        emotions_purity = analyse_clustering_results(n_clusters, labels, anns,
+                                                                     save_path=root_datasets_path + "/" + dataset_name
                                                                           + "/experiments/" + f_name + "/"
                                                                           + method_name + "_" + str(
                                                                     n_clusters) + ".csv")
@@ -100,7 +102,7 @@ def conduct_experiments(dataset_name, cluster_sizes, eps_values, min_samples_qnt
                         group_sizes = ";".join([str(s) for s in group_sizes])
                         results_array[row, group_sizes_col] = group_sizes
                         results_array[row, sil_col] = sil
-                        results_array[row, 8] = summed_var
+                        results_array[row, emotions_purity_col] = emotions_purity
                         row += 1
         finally:
             numpy.savetxt(get_free_results_filepath(root_datasets_path + "/" + dataset_name + "/", f_name),

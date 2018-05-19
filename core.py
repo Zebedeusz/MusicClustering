@@ -49,8 +49,12 @@ features = [Feature.COMPRESS_FEATURE, Feature.MEDIAN_SPECTRAL_BAND_ENERGY, Featu
             Feature.SPECTRAL_PATTERN, Feature.DELTA_SPECTRAL_PATTERN, Feature.VARIANCE_DELTA_SPECTRAL_PATTERN,
             Feature.CORRELATION_PATTERN, Feature.SPECTRAL_CONTRAST_PATTERN]
 
+features = [Feature.COMPRESS_FEATURE,
+            Feature.SPECTRAL_PATTERN, Feature.DELTA_SPECTRAL_PATTERN, Feature.VARIANCE_DELTA_SPECTRAL_PATTERN,
+            Feature.CORRELATION_PATTERN, Feature.SPECTRAL_CONTRAST_PATTERN]
+
 # , Feature.MEDIAN_SPECTRAL_BAND_ENERGY left for better times
-datasets = [ismir_happy]
+datasets = [ismir_happy, ismir_angry]
 datasets_with_no_msbe = [aljanaki_rock, aljanaki_pop,
                          aljanaki_electronic, aljanaki_classical]
 genres = [genres_blues, genres_classical, genres_country, genres_disco, genres_hiphop, genres_jazz, genres_metal,
@@ -62,7 +66,6 @@ datasets_with_no_msbe.extend(genres)
 # datasets.extend(datasets_with_no_msbe)
 # datasets.extend(genres)
 
-
 def isFeatureSavedForDataset(path, feature):
     import os.path
     feature_dumps_path = "/features_dumps/"
@@ -71,19 +74,9 @@ def isFeatureSavedForDataset(path, feature):
 for dataset in datasets:
     print(dataset.split("/")[-1])
     for f in features:
-        if not isFeatureSavedForDataset(dataset, f):
-            print(f)
-            save_npy_with_feature_for_dataset(dataset, [f])
-
-features = [Feature.MEDIAN_SPECTRAL_BAND_ENERGY, Feature.SPECTRAL_CENTROID]
-
-for dataset in datasets:
-    print(dataset.split("/")[-1])
-    for f in features:
-        if not isFeatureSavedForDataset(dataset, f):
-            print(f)
-            save_npy_with_feature_for_dataset(dataset, [f])
-
+        # if not isFeatureSavedForDataset(dataset, f):
+        print(f)
+        save_npy_with_feature_for_dataset(dataset, [f])
 
         # fs = get_features_of_files_in_path(eerola, [Feature.CORRELATION_PATTERN])
 # read_and_save_features_from_files_in_path(filepath2, "mfcc", filepath2)
