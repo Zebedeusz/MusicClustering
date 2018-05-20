@@ -24,6 +24,7 @@ def load_data_from_file(path):
 
 
 def read_features_from_file(path, omit_first_column=False):
+    import numpy
     with open(path, newline='') as f:
         features = []
         reader = csv.reader(f, delimiter=",")
@@ -32,7 +33,7 @@ def read_features_from_file(path, omit_first_column=False):
     if (omit_first_column):
         for row in features:
             del row[0]
-    features = numpy.asarray(features, dtype="float32")
+    features = numpy.asarray(features, dtype="float16")
     return features
 
 

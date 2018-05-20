@@ -46,7 +46,9 @@ def cluster_k_means(data, n_clusters, plot=False, stats_save_path=False):
     from sklearn.cluster import KMeans
     from sklearn.metrics import silhouette_score
     from jqmcvi.base import davisbouldin, dunn_fast
+    import numpy
 
+    data = numpy.nan_to_num(data)
     k_means = KMeans(n_clusters=n_clusters)
     k_means.fit(data)
 
@@ -107,7 +109,9 @@ def cluster_dbscan(data, eps, min_samples, stats_save_path=False):
     from sklearn.cluster import DBSCAN
     from sklearn.metrics import silhouette_score
     from jqmcvi.base import dunn_fast
+    import numpy
 
+    data = numpy.nan_to_num(data)
     dbscan = DBSCAN(eps=eps, min_samples=min_samples)
     dbscan.fit(data)
 

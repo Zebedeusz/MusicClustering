@@ -186,6 +186,11 @@ def load_fps_from_path(catalogue):
     for (dirpath, dirnames, filenames) in os.walk(root_path + catalogue):
         for filename in filenames:
             if str(filename).__contains__(".csv"):
-                fps.extend(read_features_from_file(root_path + catalogue + "/" + filename, True))
+                # fps.extend(read_features_from_file(root_path + catalogue + "/" + filename, True))
+                if len(fps) > 0:
+                    fps = numpy.concatenate(
+                        (fps, read_features_from_file(root_path + catalogue + "/" + filename, True)))
+                else:
+                    fps = read_features_from_file(root_path + catalogue + "/" + filename, True)
 
     return numpy.array(fps)
