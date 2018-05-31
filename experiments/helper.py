@@ -1,4 +1,4 @@
-root_datasets_path = "/media/michal/HDD/Music Emotion Datasets/Decoded"
+root_datasets_path = "/media/michal/HDD1/Music Emotion Datasets/Decoded"
 dumps_catalogue = "features_dumps"
 gmm_pkl_catalogue = "gmm_pkl"
 experiments_catalogue = "experiments"

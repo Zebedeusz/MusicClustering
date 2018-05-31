@@ -1,7 +1,7 @@
-root_path = "/media/michal/HDD/Music Emotion Datasets/Decoded/Eerola/"
+root_path = "/media/michal/HDD1/Music Emotion Datasets/Decoded/Eerola/"
 dumps_path = "features_dumps/"
 dumps_path_local = "../feature_dumps/eerola"
-annotations_path = "/media/michal/HDD/Music Emotion Datasets/Decoded/data_statistics/eerola_simple.csv"
+annotations_path = "/media/michal/HDD1/Music Emotion Datasets/Decoded/data_statistics/eerola_simple.csv"
 annotations_path_local = "../annotations/eerola_simple.csv"
 
 # parameters
@@ -18,7 +18,7 @@ if __name__ == '__main__':
     # MFCC
     from feature_extraction.helper import get_gmms_samples_from_path
 
-    gmm_pkl_path = "/media/michal/HDD/Music Emotion Datasets/Decoded/Eerola/gmm_pkl"
+    gmm_pkl_path = "/media/michal/HDD1/Music Emotion Datasets/Decoded/Eerola/gmm_pkl"
     mfccs = get_gmms_samples_from_path(gmm_pkl_path)
     mfccs = numpy.delete(mfccs, 6, axis=0)
 

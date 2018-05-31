@@ -84,10 +84,10 @@ def prepare_files_in_dir(directory):
 
 
 if __name__ == '__main__':
-    directory = "/media/michal/HDD/Music Emotion Datasets/1000songs/clips_45seconds/"
+    directory = "/media/michal/HDD1/Music Emotion Datasets/1000songs/clips_45seconds/"
     # for (dirpath, dirnames, filenames) in os.walk(directory):
     #     for dirname in dirnames:
     #         path = directory + "/" + dirname
     prepare_files_in_dir(directory)
 
-    # decode("/media/michal/HDD/Music Emotion Datasets/genres/genres/blues/blues.00000.au")
+    # decode("/media/michal/HDD1/Music Emotion Datasets/genres/genres/blues/blues.00000.au")

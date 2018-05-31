@@ -1,4 +1,4 @@
-root_path = "/media/michal/HDD/Music Emotion Datasets/Decoded/ISMIR2012/"
+root_path = "/media/michal/HDD1/Music Emotion Datasets/Decoded/ISMIR2012/"
 angry_path = "angry/"
 happy_path = "happy/"
 relax_path = "relax/"
@@ -31,7 +31,7 @@ def generate_annotations_file():
 
     annotations_list = numpy.array(annotations_list)
 
-    numpy.savetxt("/media/michal/HDD/Music Emotion Datasets/Decoded/data_statistics/ISMIR2012.csv",
+    numpy.savetxt("/media/michal/HDD1/Music Emotion Datasets/Decoded/data_statistics/ISMIR2012.csv",
                   annotations_list, delimiter=",", fmt="%d")  # , encoding="utf_8")
 
 if __name__ == '__main__':

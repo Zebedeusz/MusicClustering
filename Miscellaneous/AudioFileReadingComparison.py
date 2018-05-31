@@ -3,8 +3,8 @@ import scipy.io.wavfile as wav
 from matplotlib import pyplot as plt
 from pydub import AudioSegment
 
-filepath = "/media/michal/HDD/Music Emotion Datasets/Eerola/dataverse_files/stimuli/test-stimuli-200-2009-05-29/006.wav"
-filepath = "/media/michal/HDD/Datasets/1000_songs_dataset/clips_45seconds/116.mp3.wav"
+filepath = "/media/michal/HDD1/Music Emotion Datasets/Eerola/dataverse_files/stimuli/test-stimuli-200-2009-05-29/006.wav"
+filepath = "/media/michal/HDD1/Datasets/1000_songs_dataset/clips_45seconds/116.mp3.wav"
 
 # 1
 print("Opening with scipy.io.wavfile")

@@ -100,7 +100,7 @@ def analyse_fps_variance_for_specified_datasets(catalogue, dataset_name):
 
 
 if __name__ == '__main__':
-    analyse_mfcc_gmm_sampling_variance('/media/michal/HDD/Music Emotion Datasets/Decoded')
-    # analyse_multiple_mfcc_gmm_sampling_variance('/media/michal/HDD/Music Emotion Datasets/Decoded')
-    # analyse_fps_variance("/media/michal/HDD/Music Emotion Datasets/Decoded/Fluctuation Patterns")
-    # analyse_fps_variance_for_specified_datasets("/media/michal/HDD/Music Emotion Datasets/Decoded/Fluctuation Patterns", "ISMIR2012")
+    analyse_mfcc_gmm_sampling_variance('/media/michal/HDD1/Music Emotion Datasets/Decoded')
+    # analyse_multiple_mfcc_gmm_sampling_variance('/media/michal/HDD1/Music Emotion Datasets/Decoded')
+    # analyse_fps_variance("/media/michal/HDD1/Music Emotion Datasets/Decoded/Fluctuation Patterns")
+    # analyse_fps_variance_for_specified_datasets("/media/michal/HDD1/Music Emotion Datasets/Decoded/Fluctuation Patterns", "ISMIR2012")

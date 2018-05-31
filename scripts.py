@@ -2,8 +2,8 @@ def list_shapes_of_features_in_ismir():
     from feature_extraction.FeaturesFacade import Feature
     import numpy
 
-    ismir_angry = "/media/michal/HDD/Music Emotion Datasets/Decoded/ISMIR2012/angry/features_dumps/"
-    ismir_happy = "/media/michal/HDD/Music Emotion Datasets/Decoded/ISMIR2012/happy/features_dumps/"
+    ismir_angry = "/media/michal/HDD1/Music Emotion Datasets/Decoded/ISMIR2012/angry/features_dumps/"
+    ismir_happy = "/media/michal/HDD1/Music Emotion Datasets/Decoded/ISMIR2012/happy/features_dumps/"
 
     features = [Feature.COMPRESS_FEATURE, Feature.MEDIAN_SPECTRAL_BAND_ENERGY, Feature.SPECTRAL_CENTROID,
                 Feature.SPECTRAL_PATTERN, Feature.DELTA_SPECTRAL_PATTERN, Feature.VARIANCE_DELTA_SPECTRAL_PATTERN,
@@ -22,7 +22,7 @@ def list_shapes_of_fps_ismir():
     from IO import read_features_from_file
     import os
 
-    ismir_fps = "/media/michal/HDD/Music Emotion Datasets/Decoded/Fluctuation Patterns/ISMIR2012/"
+    ismir_fps = "/media/michal/HDD1/Music Emotion Datasets/Decoded/Fluctuation Patterns/ISMIR2012/"
 
     for (dirpath, dirnames, filenames) in os.walk(ismir_fps):
         for filename in filenames:

@@ -180,7 +180,7 @@ def load_fps_from_path(catalogue):
     from IO import read_features_from_file
     import numpy
 
-    root_path = "/media/michal/HDD/Music Emotion Datasets/Decoded/Fluctuation Patterns/"
+    root_path = "/media/michal/HDD1/Music Emotion Datasets/Decoded/Fluctuation Patterns/"
 
     fps = []
     for (dirpath, dirnames, filenames) in os.walk(root_path + catalogue):
